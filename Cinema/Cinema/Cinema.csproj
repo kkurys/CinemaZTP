@@ -65,6 +65,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Custom\Commands\WpfCommands.cs" />
+    <Compile Include="Custom\TicketBuilder\ETicket.cs" />
+    <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />
+    <Compile Include="Interfaces\ITicketBuilder.cs" />
+    <Compile Include="Custom\TicketBuilder\Ticket.cs" />
+    <Compile Include="Custom\TicketBuilder\TicketConcreteBuilder.cs" />
     <Compile Include="Interfaces\IBaseViewModel.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IDbManager.cs" />
@@ -73,6 +78,7 @@
     <Compile Include="Interfaces\IObserver.cs" />
     <Compile Include="Interfaces\IReservationViewModel.cs" />
     <Compile Include="Interfaces\IShowViewModel.cs" />
+    <Compile Include="Interfaces\ITicket.cs" />
     <Compile Include="ViewModels\DbManager.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
