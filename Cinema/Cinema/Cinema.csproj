@@ -65,7 +65,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Custom\Commands\RelayCommand.cs" />
-    <Compile Include="Custom\Commands\WpfCommands.cs" />
     <Compile Include="Custom\TicketBuilder\ETicket.cs" />
     <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />
     <Compile Include="Interfaces\IMainViewModel.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Custom\TicketBuilder\Ticket.cs" />
     <Compile Include="Custom\TicketBuilder\TicketConcreteBuilder.cs" />
     <Compile Include="Interfaces\BaseViewModel.cs" />
-    <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IDbManager.cs" />
     <Compile Include="Interfaces\IMovieViewModel.cs" />
     <Compile Include="Interfaces\IObservable.cs" />

@@ -1,21 +1,9 @@
-﻿using Cinema.Models;
-using Cinema.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using Cinema.ViewModels;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Cinema.Views
 {
@@ -30,19 +18,19 @@ namespace Cinema.Views
             InitializeComponent();
             MainGrid.DataContext = new MainViewModel();
         }
-        
+
         #region methods
         private void ReservationSelected(object sender, SelectionChangedEventArgs e)
         {
-   /*         if (LBReservedList.SelectedIndex > -1 && CBPaid.IsChecked == false)
-            {
-                GBReservationDetails.IsEnabled = true;
-            }
-            else
-            {
-                GBReservationDetails.IsEnabled = false;
-            }
-            */
+            /*         if (LBReservedList.SelectedIndex > -1 && CBPaid.IsChecked == false)
+                     {
+                         GBReservationDetails.IsEnabled = true;
+                     }
+                     else
+                     {
+                         GBReservationDetails.IsEnabled = false;
+                     }
+                     */
             //if (GBReservationDetails.IsEnabled == false && CBPaid.IsChecked == false)
             //{
             //    GBReservationDetails.IsEnabled = true;
@@ -62,14 +50,14 @@ namespace Cinema.Views
 
         private void Close(object sender, RoutedEventArgs e)
         {
-           // WriteToBinaryFile<Database>("database.bin", db);
+            // WriteToBinaryFile<Database>("database.bin", db);
             this.Close();
         }
 
         private void AddMovie(object sender, RoutedEventArgs e)
         {
-    //        AddMovieWindow newMovie = new AddMovieWindow(db);
-     //       newMovie.Show();
+            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.Instance(), new Models.Movie() { Title = "Kupa na dworze" }) { Close = Close });
+            newMovie.Show();
         }
         /*
         public int FindAvailableId()
@@ -97,7 +85,7 @@ namespace Cinema.Views
         } */
         private void OpenShowsWindow(object sender, RoutedEventArgs e)
         {
-        //    ShowsWindow shows = new ShowsWindow(db);
+            //    ShowsWindow shows = new ShowsWindow(db);
 
             //shows.Show();
         }
@@ -137,8 +125,8 @@ namespace Cinema.Views
         }
         private void EditMovie(object sender, MouseButtonEventArgs e)
         {
-          //  AddMovieWindow newMovie = new AddMovieWindow(LBRepertuar.SelectedItem as Movie, db);
-         //   newMovie.Show();
+            //  AddMovieWindow newMovie = new AddMovieWindow(LBRepertuar.SelectedItem as Movie, db);
+            //   newMovie.Show();
         }
         #endregion
         #region groups&sorts methods
@@ -159,51 +147,51 @@ namespace Cinema.Views
 
         private void SortTitle(object sender, RoutedEventArgs e)
         {
-           // MoviesView.SortDescriptions.Clear();
-        //    MoviesView.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+            // MoviesView.SortDescriptions.Clear();
+            //    MoviesView.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
         }
 
         private void SortPremiereDate(object sender, RoutedEventArgs e)
         {
-         //   MoviesView.SortDescriptions.Clear();
-         //   MoviesView.SortDescriptions.Add(new SortDescription("PremiereDate", ListSortDirection.Descending));
+            //   MoviesView.SortDescriptions.Clear();
+            //   MoviesView.SortDescriptions.Add(new SortDescription("PremiereDate", ListSortDirection.Descending));
         }
         private void SortStartTime()
         {
-           // ShowsView.SortDescriptions.Clear();
-          //  ShowsView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            // ShowsView.SortDescriptions.Clear();
+            //  ShowsView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
         }
         private void SortShowDate()
         {
-         //   ShowsView.SortDescriptions.Clear();
-         //   ShowsView.SortDescriptions.Add(new SortDescription("ShowDate", ListSortDirection.Ascending));
+            //   ShowsView.SortDescriptions.Clear();
+            //   ShowsView.SortDescriptions.Add(new SortDescription("ShowDate", ListSortDirection.Ascending));
         }
         private void GroupNone(object sender, RoutedEventArgs e)
         {
-          //  MoviesView.GroupDescriptions.Clear();
+            //  MoviesView.GroupDescriptions.Clear();
         }
 
         private void GroupGenre(object sender, RoutedEventArgs e)
         {
-          //  MoviesView.GroupDescriptions.Clear();
-          //  MoviesView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
+            //  MoviesView.GroupDescriptions.Clear();
+            //  MoviesView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
         }
 
         private void GroupProduction(object sender, RoutedEventArgs e)
         {
-           // MoviesView.GroupDescriptions.Clear();
-          //  MoviesView.GroupDescriptions.Add(new PropertyGroupDescription("Production"));
+            // MoviesView.GroupDescriptions.Clear();
+            //  MoviesView.GroupDescriptions.Add(new PropertyGroupDescription("Production"));
         }
         private void GroupDate()
         {
-          //  ShowsView.GroupDescriptions.Clear();
-          //  ShowsView.GroupDescriptions.Add(new PropertyGroupDescription("ShortDate"));
+            //  ShowsView.GroupDescriptions.Clear();
+            //  ShowsView.GroupDescriptions.Add(new PropertyGroupDescription("ShortDate"));
 
         }
         private void GroupHours()
         {
-         //   ShowsView.GroupDescriptions.Clear();
-      //      ShowsView.GroupDescriptions.Add(new PropertyGroupDescription("StartTime", showsGrouper));
+            //   ShowsView.GroupDescriptions.Clear();
+            //      ShowsView.GroupDescriptions.Add(new PropertyGroupDescription("StartTime", showsGrouper));
         }
         #endregion
         #region filters
@@ -219,26 +207,26 @@ namespace Cinema.Views
         {
             get
             {
-         //       return (ListCollectionView)CollectionViewSource.GetDefaultView(db.Reservations);
+                //       return (ListCollectionView)CollectionViewSource.GetDefaultView(db.Reservations);
                 return null;
             }
         }
         private void RemoveFilter()
         {
-        //    ShowsView.Filter = null;
+            //    ShowsView.Filter = null;
         }
         private void ApplyDateFilter()
         {
-       /*     var currentDate = DateTime.Today;
-            ShowsView.Filter = delegate (object item)
-            {
-                Show show = item as Show;
-                if (show.ShowDate == currentDate)
-                {
-                    return true;
-                }
-                return false;
-            }; */
+            /*     var currentDate = DateTime.Today;
+                 ShowsView.Filter = delegate (object item)
+                 {
+                     Show show = item as Show;
+                     if (show.ShowDate == currentDate)
+                     {
+                         return true;
+                     }
+                     return false;
+                 }; */
         }
         private void ApplyTitleFilter()
         {

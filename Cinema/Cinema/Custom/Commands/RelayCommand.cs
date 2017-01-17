@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Cinema.Custom.Commands
 {
-    public class RelayCommand : Cinema.Interfaces.ICommand
+    public class RelayCommand : ICommand
     {
         readonly Action<object> _execute;
         readonly Predicate<object> _canExecute;
