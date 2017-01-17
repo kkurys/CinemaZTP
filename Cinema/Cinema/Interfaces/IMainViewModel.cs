@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cinema.Interfaces
 {
-    class IMainViewModel
+    interface IMainViewModel
     {
+
     }
 }
