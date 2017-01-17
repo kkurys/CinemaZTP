@@ -65,6 +65,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Custom\Commands\WpfCommands.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IMovieViewModel.cs" />
+    <Compile Include="Interfaces\IObservable.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
+    <Compile Include="Interfaces\IReservationViewModel.cs" />
+    <Compile Include="Interfaces\IShowViewModel.cs" />
     <Compile Include="Views\ShowsWindow.xaml.cs">
       <DependentUpon>ShowsWindow.xaml</DependentUpon>
     </Compile>
