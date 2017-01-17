@@ -2,6 +2,7 @@
 using Cinema.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Cinema.ViewModels
 {
@@ -13,7 +14,7 @@ namespace Cinema.ViewModels
 
         private DbManager() { }
 
-        public static DbManager GetInstance()
+        IDbManager IDbManager.GetInstance()
         {
             if (_instance == null)
             {
@@ -22,81 +23,46 @@ namespace Cinema.ViewModels
             return _instance;
         }
 
-        public void Add(object toAdd)
-        {
-            if (toAdd is Movie)
-            {
-                db.Movies.Add(toAdd as Movie);
-            }
-            else if (toAdd is Reservation)
-            {
-                db.Reservations.Add(toAdd as Reservation);
-            }
-            else if (toAdd is Show)
-            {
-                db.Shows.Add(toAdd as Show);
-            }
-            db.SaveChanges();
-        }
 
-        public void Update(object toUpdate)
-        {
-            db.Entry(toUpdate).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-        }
-
-        public void Delete(object toDelete)
-        {
-            if (toDelete is Movie)
-            {
-                db.Movies.Remove(toDelete as Movie);
-            }
-            else if (toDelete is Reservation)
-            {
-                db.Reservations.Remove(toDelete as Reservation);
-            }
-            else if (toDelete is Show)
-            {
-                db.Shows.Remove(toDelete as Show);
-            }
-            db.SaveChanges();
-        }
-
-        public List<object> GetObjects(Type type)
-        {
-            if (type == typeof(Movie))
-            {
-                return db.Movies.ToList();
-            }
-            else if (type is Reservation)
-            {
-                return db.Reservations.ToList();
-            }
-            else if (type is Show)
-            {
-                return db.Shows.ToList();
-            }
-            else return null;
-        }
-
-        IDbManager IDbManager.GetInstance()
-        {
-            throw new NotImplementedException();
-        }
-
+        // NIE MAM POJĘCIA CZY TO ZADZIAŁA
         public ICollection<T> GetObjects<T>()
         {
-            throw new NotImplementedException();
+            if (typeof(T) == typeof(Movie))
+            {
+                IList<T> list = (IList<T>)db.Movies.ToList();
+                return list;
+            }
+            else if (typeof(T) == typeof(Reservation))
+            {
+                IList<T> list = (IList<T>)db.Reservations.ToList();
+                return list;
+            }
+            else if (typeof(T) == typeof(Show))
+            {
+                IList<T> list = (IList<T>)db.Shows.ToList();
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public void Add(object obj)
+        {
+            db.Entry(obj).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges();
         }
 
         public void Update(object obj)
         {
-            throw new NotImplementedException();
+            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Delete(object obj)
         {
-            throw new NotImplementedException();
+            db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
         }
 
         public void AddObserver(IObserver observer)

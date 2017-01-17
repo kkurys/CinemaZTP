@@ -67,6 +67,7 @@
     <Compile Include="Custom\Commands\WpfCommands.cs" />
     <Compile Include="Custom\TicketBuilder\ETicket.cs" />
     <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />
+    <Compile Include="Interfaces\IMainViewModel.cs" />
     <Compile Include="Interfaces\ITicketBuilder.cs" />
     <Compile Include="Custom\TicketBuilder\Ticket.cs" />
     <Compile Include="Custom\TicketBuilder\TicketConcreteBuilder.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Interfaces\IShowViewModel.cs" />
     <Compile Include="Interfaces\ITicket.cs" />
     <Compile Include="Custom\DbManager.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="ViewModels\ShowViewModel.cs" />
