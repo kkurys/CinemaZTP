@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cinema"
         xmlns:converters="clr-namespace:Cinema.converters"
+        xmlns:validators="clr-namespace:Cinema.validators"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="900">
     <Window.Resources>
@@ -347,7 +348,7 @@
                                         <TextBox.Text>
                                             <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                                 <Binding.ValidationRules>
-                                                    <local:ValidNameRule></local:ValidNameRule>
+                                                    <validators:ValidNameRule></validators:ValidNameRule>
                                                 </Binding.ValidationRules>
                                             </Binding>
                                         </TextBox.Text>
@@ -358,7 +359,7 @@
                                         <TextBox.Text>
                                             <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                                 <Binding.ValidationRules>
-                                                    <local:ValidNameRule></local:ValidNameRule>
+                                                    <validators:ValidNameRule></validators:ValidNameRule>
                                                 </Binding.ValidationRules>
                                             </Binding>
                                         </TextBox.Text>
@@ -487,7 +488,7 @@
                                     <TextBox.Text>
                                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                             <Binding.ValidationRules>
-                                                <local:ValidNameRule></local:ValidNameRule>
+                                                <validators:ValidNameRule></validators:ValidNameRule>
                                             </Binding.ValidationRules>
                                         </Binding>
                                     </TextBox.Text>
@@ -498,7 +499,7 @@
                                     <TextBox.Text>
                                         <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                             <Binding.ValidationRules>
-                                                <local:ValidNameRule></local:ValidNameRule>
+                                                <validators:ValidNameRule></validators:ValidNameRule>
                                             </Binding.ValidationRules>
                                         </Binding>
                                     </TextBox.Text>
