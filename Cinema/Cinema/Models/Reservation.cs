@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cinema.Models
+﻿namespace Cinema.Models
 {
     public enum Ticket
     {
@@ -12,7 +6,7 @@ namespace Cinema.Models
         HalfPrice
     };
 
-    class Reservation
+    public class Reservation
     {
         public int Id { get; set; }
         public string Name { get; set; }

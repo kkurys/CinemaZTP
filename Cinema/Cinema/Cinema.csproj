@@ -72,6 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Show.cs" />
