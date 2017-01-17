@@ -255,7 +255,7 @@
                                     <TextBlock Name="TBProduction" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
                                                Text="{Binding Production}"></TextBlock>
                                     <TextBlock Name="TBLength" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
-                                               Text="{Binding LengthString}"></TextBlock>
+                                               Text="{Binding Length}"></TextBlock>
                                     <ScrollViewer Grid.Row="7" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                         <TextBlock Name="TBDescription" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
                                                Text="{Binding Description}" ></TextBlock>
@@ -330,7 +330,7 @@
                                 <TextBlock Text="Nowa rezerwacja" FontSize="15"/>
                             </GroupBox.Header>
                             <StackPanel>
-                                <Grid Name="NewReservationGrid">
+                                <Grid Name="NewReservationGrid" DataContext="{Binding Reservation}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"></RowDefinition>
                                         <RowDefinition Height="auto"></RowDefinition>

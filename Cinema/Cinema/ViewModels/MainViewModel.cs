@@ -13,10 +13,8 @@ namespace Cinema.ViewModels
     class MainViewModel : IMainViewModel, INotifyPropertyChanged
     {
         private DbManager db;
-
-        private Movie _movie = new Movie();
+        
         private Reservation _reservation = new Reservation();
-        private Show _show = new Show();
 
         private ObservableCollection<Show> _shows = new ObservableCollection<Show>();
         private ObservableCollection<Movie> _movies = new ObservableCollection<Movie>();
@@ -42,16 +40,6 @@ namespace Cinema.ViewModels
             get { return _movies; }
         }
 
-        public Movie Movie
-        {
-            get { return _movie; }
-            set
-            {
-                _movie = value;
-                OnPropertyChaned("Movie");
-            }
-        }
-
         public Reservation Reservation
         {
             get { return _reservation; }
@@ -62,20 +50,17 @@ namespace Cinema.ViewModels
             }
         }
 
-        public Show Show
-        {
-            get { return _show; }
-            set
-            {
-                _show = value;
-                OnPropertyChaned("Show");
-            }
-        }
-
         public void LoadCollections()
         {
             _movies = new ObservableCollection<Movie>(db.GetObjects<Movie>());
             _shows = new ObservableCollection<Show>(db.GetObjects<Show>());
+            _reservations = new ObservableCollection<Reservation>(db.GetObjects<Reservation>());
+        }
+
+        public void AddReservation()
+        {
+            _reservation.ShowId = 4; // podpiąć zaznaczony seans z listboxa
+            db.Add(_reservation);
         }
 
         public event PropertyChangedEventHandler PropertyChanged = null;
