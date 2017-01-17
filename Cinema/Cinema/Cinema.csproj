@@ -71,6 +71,9 @@
     <Compile Include="Interfaces\IObserver.cs" />
     <Compile Include="Interfaces\IReservationViewModel.cs" />
     <Compile Include="Interfaces\IShowViewModel.cs" />
+    <Compile Include="ViewModels\MovieViewModel.cs" />
+    <Compile Include="ViewModels\ReservationViewModel.cs" />
+    <Compile Include="ViewModels\ShowViewModel.cs" />
     <Compile Include="Views\ShowsWindow.xaml.cs">
       <DependentUpon>ShowsWindow.xaml</DependentUpon>
     </Compile>
@@ -147,9 +150,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
