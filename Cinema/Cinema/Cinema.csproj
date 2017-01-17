@@ -73,6 +73,7 @@
     <Compile Include="Interfaces\IObserver.cs" />
     <Compile Include="Interfaces\IReservationViewModel.cs" />
     <Compile Include="Interfaces\IShowViewModel.cs" />
+    <Compile Include="ViewModels\DbManager.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="ViewModels\ShowViewModel.cs" />

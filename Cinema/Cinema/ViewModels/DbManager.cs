@@ -1,9 +1,7 @@
-﻿using Cinema.Models;
+﻿using Cinema.Interfaces;
+using Cinema.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cinema.ViewModels
 {
@@ -38,6 +36,36 @@ namespace Cinema.ViewModels
             {
                 db.Shows.Add(toAdd as Show);
             }
+        }
+
+        IDbManager IDbManager.GetInstance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<T> GetObjects<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddObserver(IObserver observer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyObservers(Type t)
+        {
+            throw new NotImplementedException();
         }
     }
 }
