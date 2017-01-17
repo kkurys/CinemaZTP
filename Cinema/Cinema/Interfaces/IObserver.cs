@@ -1,6 +1,9 @@
-﻿namespace Cinema.Interfaces
+﻿using System;
+
+namespace Cinema.Interfaces
 {
-    interface IObserver
+    public interface IObserver
     {
+        void Update(Type t);
     }
 }

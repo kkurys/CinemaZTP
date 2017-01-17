@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cinema.ViewModels
 {
-    class DbManager
+    public class DbManager : IDbManager
     {
         CinemaDbContext db = new CinemaDbContext();
 

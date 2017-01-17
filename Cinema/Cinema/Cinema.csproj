@@ -65,7 +65,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Custom\Commands\WpfCommands.cs" />
+    <Compile Include="Interfaces\IBaseViewModel.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IDbManager.cs" />
     <Compile Include="Interfaces\IMovieViewModel.cs" />
     <Compile Include="Interfaces\IObservable.cs" />
     <Compile Include="Interfaces\IObserver.cs" />
