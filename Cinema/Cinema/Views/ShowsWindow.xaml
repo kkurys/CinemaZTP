@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cinema"
         mc:Ignorable="d"
-        Title="Seanse" Height="900" Width="1200" MinHeight="900" MinWidth="1000" KeyDown="KeyShortcuts" Style="{StaticResource CustomWindow}">
+        Title="Seanse" Height="900" Width="1200" MinHeight="900" MinWidth="1000" KeyDown="KeyShortcuts">
+    <!--  Style="{StaticResource CustomWindow}" -->
     <Window.Resources>
         <Style x:Key="ButtonFocusVisual">
             <Setter
