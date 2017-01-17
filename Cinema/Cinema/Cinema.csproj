@@ -82,6 +82,11 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Show.cs" />
+    <Compile Include="TicketBuilder\ETicket.cs" />
+    <Compile Include="TicketBuilder\ETicketConcreteBuilder.cs" />
+    <Compile Include="TicketBuilder\ITicketBuilder.cs" />
+    <Compile Include="TicketBuilder\Ticket.cs" />
+    <Compile Include="TicketBuilder\TicketConcreteBuilder.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -119,7 +124,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="TicketBuilder\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
