@@ -25,10 +25,11 @@ namespace Cinema.Views
     public partial class MainWindow : Window
     {
         CultureInfo cultureInfo = new CultureInfo("pl-PL");
+
         public MainWindow()
         {
             InitializeComponent();
-            MainGrid.DataContext = new MainViewModel();
+            MainGrid.DataContext = new MainViewModel(DbManager.GetInstance());
         }
         
         #region methods

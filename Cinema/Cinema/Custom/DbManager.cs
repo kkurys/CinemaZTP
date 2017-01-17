@@ -13,17 +13,8 @@ namespace Cinema.ViewModels
         private static DbManager _instance;
 
         private DbManager() { }
-
-        public static DbManager Instance()
-        {
-            if (_instance == null)
-            {
-                _instance = new DbManager();
-            }
-            return _instance;
-        }
-
-        public IDbManager GetInstance()
+        
+        public static DbManager GetInstance()
         {
             if (_instance == null)
             {

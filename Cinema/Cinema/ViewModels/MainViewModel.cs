@@ -10,20 +10,25 @@ using System.Threading.Tasks;
 
 namespace Cinema.ViewModels
 {
-    class MainViewModel : IMainViewModel, INotifyPropertyChanged
+    class MainViewModel : BaseViewModel, IMainViewModel
     {
-        private DbManager db;
-        
-        private Reservation _reservation = new Reservation();
+        private IDbManager _db;
 
-        private ObservableCollection<Show> _shows = new ObservableCollection<Show>();
-        private ObservableCollection<Movie> _movies = new ObservableCollection<Movie>();
-        private ObservableCollection<Reservation> _reservations = new ObservableCollection<Reservation>();
+        private Reservation _reservation;
+
+        private ObservableCollection<Show> _shows;
+        private ObservableCollection<Movie> _movies;
+        private ObservableCollection<Reservation> _reservations;
 
 
-        public MainViewModel()
+        public MainViewModel(IDbManager db)
         {
-            db = DbManager.Instance();
+            _reservation = new Reservation();
+            _shows = new ObservableCollection<Show>();
+            _movies = new ObservableCollection<Movie>();
+            _reservations = new ObservableCollection<Reservation>();
+
+            Init(db);
             LoadCollections();
         }
 
@@ -46,28 +51,26 @@ namespace Cinema.ViewModels
             set
             {
                 _reservation = value;
-                OnPropertyChaned("Reservation");
+                OnPropertyChanged("Reservation");
             }
         }
 
         public void LoadCollections()
         {
-            _movies = new ObservableCollection<Movie>(db.GetObjects<Movie>());
-            _shows = new ObservableCollection<Show>(db.GetObjects<Show>());
-            _reservations = new ObservableCollection<Reservation>(db.GetObjects<Reservation>());
+            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+            _shows = new ObservableCollection<Show>(_db.GetObjects<Show>());
+            _reservations = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
         }
 
         public void AddReservation()
         {
             _reservation.ShowId = 4; // podpiąć zaznaczony seans z listboxa
-            db.Add(_reservation);
+            _db.Add(_reservation);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged = null;
-
-        private void OnPropertyChaned(string v)
+        
+        public override void Init(IDbManager db)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
+            _db = db;
         }
     }
 }
