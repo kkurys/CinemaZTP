@@ -13,7 +13,6 @@ namespace Cinema.Views
     public partial class ShowsWindow : Window
     {
         private ShowsViewModel _viewModel;
-        private DateTime dt;
         public ShowsWindow(ShowsViewModel viewModel)
         {
             InitializeComponent();
@@ -49,7 +48,7 @@ namespace Cinema.Views
                     btn = LogicalTreeHelper.FindLogicalNode(DataGrid, "btn" + row + "" + day) as Button;
                     foreach (Show s in _viewModel.ShowsToAdd)
                     {
-                        if (!s.ShowDate.Equals(dt.AddDays(day)))
+                        if (!s.ShowDate.Equals(_viewModel.CurrentDate.AddDays(day)))
                         {
                             continue;
                         }

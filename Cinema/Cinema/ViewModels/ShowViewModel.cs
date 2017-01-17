@@ -18,7 +18,6 @@ namespace Cinema.ViewModels
         private ObservableCollection<string> _halls;
         private ObservableCollection<Show> _showsToAdd;
 
-        private ICommand _addShowCmd;
         private IDbManager _db;
 
         private DateTime _currentDate;
@@ -89,6 +88,13 @@ namespace Cinema.ViewModels
             {
                 _currentWeek = value;
                 OnPropertyChanged("CurrentWeek");
+            }
+        }
+        public DateTime CurrentDate
+        {
+            get
+            {
+                return _currentDate;
             }
         }
         #endregion
