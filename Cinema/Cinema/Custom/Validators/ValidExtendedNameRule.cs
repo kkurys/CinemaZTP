@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace Cinema
+namespace Cinema.validators
 {
     class ValidExtendedNameRule : ValidationRule
     {

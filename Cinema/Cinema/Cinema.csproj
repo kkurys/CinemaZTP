@@ -79,6 +79,9 @@
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="ViewModels\ShowViewModel.cs" />
+    <Compile Include="Views\MovieWindow.xaml.cs">
+      <DependentUpon>MovieWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShowsWindow.xaml.cs">
       <DependentUpon>ShowsWindow.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MovieWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShowsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
