@@ -64,6 +64,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Custom\Commands\WpfCommands.cs" />
+    <Compile Include="Custom\TicketBuilder\ETicket.cs" />
+    <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />
+    <Compile Include="Interfaces\ITicketBuilder.cs" />
+    <Compile Include="Custom\TicketBuilder\Ticket.cs" />
+    <Compile Include="Custom\TicketBuilder\TicketConcreteBuilder.cs" />
+    <Compile Include="Interfaces\IBaseViewModel.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IDbManager.cs" />
+    <Compile Include="Interfaces\IMovieViewModel.cs" />
+    <Compile Include="Interfaces\IObservable.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
+    <Compile Include="Interfaces\IReservationViewModel.cs" />
+    <Compile Include="Interfaces\IShowViewModel.cs" />
+    <Compile Include="Interfaces\ITicket.cs" />
+    <Compile Include="Custom\DbManager.cs" />
+    <Compile Include="ViewModels\MovieViewModel.cs" />
+    <Compile Include="ViewModels\ReservationViewModel.cs" />
+    <Compile Include="ViewModels\ShowViewModel.cs" />
+    <Compile Include="Views\ShowsWindow.xaml.cs">
+      <DependentUpon>ShowsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\HallWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +98,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Custom\Converters\BoolToOppositeBoolConverter.cs" />
+    <Compile Include="Custom\Converters\ImagePathConverter.cs" />
+    <Compile Include="Custom\Converters\ListToStringConverter.cs" />
+    <Compile Include="Custom\Converters\TicketTypeConverter.cs" />
+    <Compile Include="Custom\Validators\ValidAmountRule.cs" />
+    <Compile Include="Custom\Validators\ValidExtendedNameRule.cs" />
+    <Compile Include="Custom\Validators\ValidNameRule.cs" />
+    <Compile Include="Custom\Validators\ValidTimeRule.cs" />
+    <Compile Include="Custom\Validators\ValidTitleRule.cs" />
     <Compile Include="Migrations\201701171442495_init.cs" />
     <Compile Include="Migrations\201701171442495_init.Designer.cs">
       <DependentUpon>201701171442495_init.cs</DependentUpon>
@@ -81,11 +116,17 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Show.cs" />
-    <Compile Include="ViewModels\DbManager.cs" />
+    <Compile Include="Views\HallWindow.xaml.cs">
+      <DependentUpon>HallWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ShowsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
