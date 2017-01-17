@@ -24,7 +24,7 @@ namespace Cinema.ViewModels
             return _instance;
         }
 
-        public void Add(Object toAdd)
+        public void Add(object toAdd)
         {
             if (toAdd is Movie)
             {
@@ -38,6 +38,47 @@ namespace Cinema.ViewModels
             {
                 db.Shows.Add(toAdd as Show);
             }
+            db.SaveChanges();
+        }
+
+        public void Update(object toUpdate)
+        {
+            db.Entry(toUpdate).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void Delete(object toDelete)
+        {
+            if (toDelete is Movie)
+            {
+                db.Movies.Remove(toDelete as Movie);
+            }
+            else if (toDelete is Reservation)
+            {
+                db.Reservations.Remove(toDelete as Reservation);
+            }
+            else if (toDelete is Show)
+            {
+                db.Shows.Remove(toDelete as Show);
+            }
+            db.SaveChanges();
+        }
+
+        public List<object> GetObjects(Type type)
+        {
+            if (type == typeof(Movie))
+            {
+                return db.Movies.ToList();
+            }
+            else if (type is Reservation)
+            {
+                return db.Reservations.ToList();
+            }
+            else if (type is Show)
+            {
+                return db.Shows.ToList();
+            }
+            else return null;
         }
     }
 }
