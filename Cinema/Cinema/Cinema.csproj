@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DbContext.cs" />
+    <Compile Include="Models\ITicket.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Show.cs" />
@@ -118,6 +119,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="TicketBuilder\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
