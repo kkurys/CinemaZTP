@@ -1,0 +1,466 @@
+﻿<Window x:Class="Cinema.Views.ShowsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cinema"
+        mc:Ignorable="d"
+        Title="Seanse" Height="900" Width="1200" MinHeight="900" MinWidth="1000" KeyDown="KeyShortcuts" Style="{StaticResource CustomWindow}">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:WpfCommands.Add" CanExecute="Add_CanExecute" Executed="Add_Executed" />
+    </Window.CommandBindings>
+    <Window.Resources>
+
+        <Style  x:Key="ButtonFocusVisual">
+            <Setter
+            Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HoursButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FFE2FFCA"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Black"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="OpacityMask" Value="#AA888888"/>
+                                <Setter Property="Margin" Value="2 1" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF27462A"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" Value="#FFFFB1B1"/>
+                                <Setter Property="Foreground" Value="#FF494949"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="nonHighlight" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="Border" Margin="2">
+                            <ContentPresenter>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FF67BD53" Offset="0" />
+                                            <GradientStop Color="#FF196607" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter TargetName="Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FF0080FF" Offset="0" />
+                                            <GradientStop Color="#FF02498F" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="GroupTemplate">
+            <TextBlock Text="{Binding Path=Name}"
+                        FontWeight="Bold" Foreground="White" Background="#FFDC5609"
+                        FontSize="20" Margin="0,5,0,0" Padding="3"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ShowDataTemplate">
+            <Grid Margin="5 3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock FontSize="18" Text="{Binding Path=ShortDate}" FontWeight="Bold" Foreground="White" />
+                    <TextBlock FontSize="18" Margin="5 0" Text=" / " Foreground="White" />
+                    <TextBlock FontSize="18" Text="{Binding Path=ShortStartTime}" Foreground="White" />
+                    <TextBlock FontSize="18" Margin="2 0" Text=" - " Foreground="White" />
+                    <TextBlock FontSize="18" Text="{Binding Path=ShortEndTime}" Foreground="White" />
+                    <TextBlock FontSize="18" Margin="2 0" Text=" / Sala " Foreground="White" />
+                    <TextBlock FontSize="18" Text="{Binding Path=Hall}" Foreground="White" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="USUŃ" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Wybierz salę: " Grid.Column="0" Margin="5px" FontSize="14"></Label>
+            <ComboBox Name="CBHalls" Margin="5px" Grid.Column="1" SelectionChanged="GenerateTable" HorizontalAlignment="Center" >
+            </ComboBox>
+            <Label Content="Wybierz film: " Grid.Column="2" Margin="5px" FontSize="14"></Label>
+            <ComboBox Name="CBMovies" Margin="5px" Grid.Column="3" SelectionChanged="GenerateTable" ></ComboBox>
+        </Grid>
+        <GroupBox Header="Harmonogram" Grid.Row="1" Grid.Column="0" Margin="5">
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="BTPrev" FontFamily="Marlett" Content="3" Margin="20 0" Padding="30 0" ToolTip="Wyświetl poprzedni tydzień"></Button>
+                    <Label Name="LBDateFrom" FontSize="18" FontWeight="Bold"></Label>
+                    <Label Content="do" FontSize="18" ></Label>
+                    <Label Name="LBDateTo" FontSize="18" FontWeight="Bold"></Label>
+                    <Button Name="BTNext" FontFamily="Marlett" Content="4" Margin="20 0" Padding="30 0"  ToolTip="Wyświetl następny tydzień"></Button>
+                </StackPanel>
+                <Grid Grid.Row="1" Name="GridDays">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Label Name="LBDate0" Content="{Binding FirstDay}"  Margin="3px" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Label Name="LBDate1" Content="{Binding SecondDay}" Margin="3px"  HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Label Name="LBDate2" Content="{Binding ThirdDay}"  Margin="3px"  HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="3">
+                        <Label Name="LBDate3" Content="{Binding FourthDay}"  Margin="3px"  HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="4">
+                        <Label Name="LBDate4" Content="{Binding FifthDay}" Margin="3px" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="5">
+                        <Label Name="LBDate5" Content="{Binding SixthDay}" Margin="3px" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Column="6">
+                        <Label Name="LBDate6" Content="{Binding SeventhDay}" Margin="3px" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid Name="DataGrid" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Name="btn00" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="1" Name="btn01" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="2" Name="btn02" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="3" Name="btn03" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="4" Name="btn04" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="5" Name="btn05" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="0" Grid.Column="6" Name="btn06" Command="local:WpfCommands.Add" Content="10:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="1" Grid.Column="0" Name="btn10" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="1" Name="btn11" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="2" Name="btn12" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="3" Name="btn13" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="4" Name="btn14" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="5" Name="btn15" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="1" Grid.Column="6" Name="btn16" Command="local:WpfCommands.Add" Content="10:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="2" Grid.Column="0" Name="btn20" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="1" Name="btn21" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="2" Name="btn22" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="3" Name="btn23" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="4" Name="btn24" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="5" Name="btn25" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="2" Grid.Column="6" Name="btn26" Command="local:WpfCommands.Add" Content="11:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="3" Grid.Column="0" Name="btn30" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="1" Name="btn31" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="2" Name="btn32" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="3" Name="btn33" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="4" Name="btn34" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="5" Name="btn35" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="3" Grid.Column="6" Name="btn36" Command="local:WpfCommands.Add" Content="11:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="4" Grid.Column="0" Name="btn40" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="1" Name="btn41" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="2" Name="btn42" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="3" Name="btn43" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="4" Name="btn44" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="5" Name="btn45" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="4" Grid.Column="6" Name="btn46" Command="local:WpfCommands.Add" Content="12:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="5" Grid.Column="0" Name="btn50" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="1" Name="btn51" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="2" Name="btn52" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="3" Name="btn53" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="4" Name="btn54" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="5" Name="btn55" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="5" Grid.Column="6" Name="btn56" Command="local:WpfCommands.Add" Content="12:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="6" Grid.Column="0" Name="btn60" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="1" Name="btn61" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="2" Name="btn62" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="3" Name="btn63" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="4" Name="btn64" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="5" Name="btn65" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="6" Grid.Column="6" Name="btn66" Command="local:WpfCommands.Add" Content="13:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="7" Grid.Column="0" Name="btn70" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="1" Name="btn71" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="2" Name="btn72" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="3" Name="btn73" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="4" Name="btn74" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="5" Name="btn75" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="7" Grid.Column="6" Name="btn76" Command="local:WpfCommands.Add" Content="13:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="8" Grid.Column="0" Name="btn80" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="1" Name="btn81" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="2" Name="btn82" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="3" Name="btn83" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="4" Name="btn84" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="5" Name="btn85" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="8" Grid.Column="6" Name="btn86" Command="local:WpfCommands.Add" Content="14:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="9" Grid.Column="0" Name="btn90" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="1" Name="btn91" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="2" Name="btn92" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="3" Name="btn93" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="4" Name="btn94" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="5" Name="btn95" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="9" Grid.Column="6" Name="btn96" Command="local:WpfCommands.Add" Content="14:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="10" Grid.Column="0" Name="btn100" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="1" Name="btn101" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="2" Name="btn102" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="3" Name="btn103" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="4" Name="btn104" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="5" Name="btn105" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="10" Grid.Column="6" Name="btn106" Command="local:WpfCommands.Add" Content="15:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="11" Grid.Column="0" Name="btn110" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="1" Name="btn111" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="2" Name="btn112" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="3" Name="btn113" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="4" Name="btn114" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="5" Name="btn115" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="11" Grid.Column="6" Name="btn116" Command="local:WpfCommands.Add" Content="15:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="12" Grid.Column="0" Name="btn120" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="1" Name="btn121" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="2" Name="btn122" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="3" Name="btn123" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="4" Name="btn124" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="5" Name="btn125" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="12" Grid.Column="6" Name="btn126" Command="local:WpfCommands.Add" Content="16:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="13" Grid.Column="0" Name="btn130" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="1" Name="btn131" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="2" Name="btn132" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="3" Name="btn133" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="4" Name="btn134" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="5" Name="btn135" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="13" Grid.Column="6" Name="btn136" Command="local:WpfCommands.Add" Content="16:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="14" Grid.Column="0" Name="btn140" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="1" Name="btn141" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="2" Name="btn142" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="3" Name="btn143" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="4" Name="btn144" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="5" Name="btn145" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="14" Grid.Column="6" Name="btn146" Command="local:WpfCommands.Add" Content="17:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="15" Grid.Column="0" Name="btn150" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="1" Name="btn151" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="2" Name="btn152" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="3" Name="btn153" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="4" Name="btn154" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="5" Name="btn155" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="15" Grid.Column="6" Name="btn156" Command="local:WpfCommands.Add" Content="17:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="16" Grid.Column="0" Name="btn160" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="1" Name="btn161" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="2" Name="btn162" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="3" Name="btn163" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="4" Name="btn164" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="5" Name="btn165" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="16" Grid.Column="6" Name="btn166" Command="local:WpfCommands.Add" Content="18:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="17" Grid.Column="0" Name="btn170" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="1" Name="btn171" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="2" Name="btn172" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="3" Name="btn173" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="4" Name="btn174" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="5" Name="btn175" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="17" Grid.Column="6" Name="btn176" Command="local:WpfCommands.Add" Content="18:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="18" Grid.Column="0" Name="btn180" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="1" Name="btn181" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="2" Name="btn182" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="3" Name="btn183" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="4" Name="btn184" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="5" Name="btn185" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="18" Grid.Column="6" Name="btn186" Command="local:WpfCommands.Add" Content="19:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="19" Grid.Column="0" Name="btn190" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="1" Name="btn191" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="2" Name="btn192" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="3" Name="btn193" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="4" Name="btn194" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="5" Name="btn195" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="19" Grid.Column="6" Name="btn196" Command="local:WpfCommands.Add" Content="19:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="20" Grid.Column="0" Name="btn200" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="1" Name="btn201" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="2" Name="btn202" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="3" Name="btn203" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="4" Name="btn204" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="5" Name="btn205" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="20" Grid.Column="6" Name="btn206" Command="local:WpfCommands.Add" Content="20:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="21" Grid.Column="0" Name="btn210" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="1" Name="btn211" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="2" Name="btn212" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="3" Name="btn213" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="4" Name="btn214" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="5" Name="btn215" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="21" Grid.Column="6" Name="btn216" Command="local:WpfCommands.Add" Content="20:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="22" Grid.Column="0" Name="btn220" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="1" Name="btn221" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="2" Name="btn222" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="3" Name="btn223" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="4" Name="btn224" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="5" Name="btn225" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="22" Grid.Column="6" Name="btn226" Command="local:WpfCommands.Add" Content="21:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="23" Grid.Column="0" Name="btn230" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="1" Name="btn231" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="2" Name="btn232" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="3" Name="btn233" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="4" Name="btn234" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="5" Name="btn235" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="23" Grid.Column="6" Name="btn236" Command="local:WpfCommands.Add" Content="21:30" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                        <Button Grid.Row="24" Grid.Column="0" Name="btn240" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="1" Name="btn241" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="2" Name="btn242" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="3" Name="btn243" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="4" Name="btn244" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="5" Name="btn245" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+                        <Button Grid.Row="24" Grid.Column="6" Name="btn246" Command="local:WpfCommands.Add" Content="22:00" Style="{StaticResource HoursButtonStyle}"></Button>
+
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </GroupBox>
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5">
+            <GroupBox Header="Lista seansów">
+                <ListBox Name="LBChosenDates" 
+                         ItemTemplate="{StaticResource ShowDataTemplate}" 
+                         ItemContainerStyle="{StaticResource nonHighlight}"
+                         HorizontalContentAlignment="Stretch" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                    <ListBox.GroupStyle>
+                        <GroupStyle HeaderTemplate="{StaticResource GroupTemplate}"/>
+                    </ListBox.GroupStyle>
+                </ListBox>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <DockPanel HorizontalAlignment="Right">
+                <Button Content="Anuluj"  Margin="5" Padding="15, 3" IsCancel="True" Click="CancelButtonClick"></Button>
+                <Button Content="Akceptuj"  Margin="5" Padding="15, 3" Click="FinishEditing"></Button>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

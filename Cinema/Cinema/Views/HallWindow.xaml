@@ -1,0 +1,255 @@
+﻿<Window x:Class="Cinema.Views.HallWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cinema.Views"
+        Title="Sala kinowa"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <Style x:Key="SeatButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LightGreen"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Margin="0, 5, 0, 15" Content="EKRAN" FontSize="20" HorizontalAlignment="Center"></Label>
+        <Grid Grid.Row="1" Margin="5" Name="SeatsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+                <RowDefinition Height="*" MinHeight="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="40"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!-- KOLUMNA 1-->
+            <Button Grid.Row="2" Margin="2" Padding="3" Name="C1" Content="C1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="3" Margin="2" Padding="3" Name="D1" Content="D1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="4" Margin="2" Padding="3" Name="E1" Content="E1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="5" Margin="2" Padding="3" Name="F1" Content="F1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="6" Margin="2" Padding="3" Name="G1" Content="G1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="7" Margin="2" Padding="3" Name="H1" Content="H1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="8" Margin="2" Padding="3" Name="J1" Content="J1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Row="9" Margin="2" Padding="3" Name="K1" Content="K1" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 2-->
+            <Button Grid.Column="1" Margin="2" Padding="3"  Name="A2" Content="A2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="1" Margin="2" Padding="3" Name="B2" Content="B2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="2" Margin="2" Padding="3" Name="C2" Content="C2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="3" Margin="2" Padding="3" Name="D2" Content="D2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="4" Margin="2" Padding="3" Name="E2" Content="E2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="5" Margin="2" Padding="3" Name="F2" Content="F2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="6" Margin="2" Padding="3" Name="G2" Content="G2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="7" Margin="2" Padding="3" Name="H2" Content="H2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="8" Margin="2" Padding="3" Name="J2" Content="J2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="1" Grid.Row="9" Margin="2" Padding="3" Name="K2" Content="K2" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 3-->
+            <Button Grid.Column="2" Margin="2" Padding="3"  Name="A3" Content="A3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="1" Margin="2" Padding="3" Name="B3" Content="B3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="2" Margin="2" Padding="3" Name="C3" Content="C3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="3" Margin="2" Padding="3" Name="D3" Content="D3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="4" Margin="2" Padding="3" Name="E3" Content="E3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="5" Margin="2" Padding="3" Name="F3" Content="F3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="6" Margin="2" Padding="3" Name="G3" Content="G3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="7" Margin="2" Padding="3" Name="H3" Content="H3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="8" Margin="2" Padding="3" Name="J3" Content="J3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="9" Margin="2" Padding="3" Name="K3" Content="K3" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 4-->
+            <Button Grid.Column="3" Margin="2" Padding="3"  Name="A4" Content="A4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="1" Margin="2" Padding="3" Name="B4" Content="B4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="2" Margin="2" Padding="3" Name="C4" Content="C4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="3" Margin="2" Padding="3" Name="D4" Content="D4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="4" Margin="2" Padding="3" Name="E4" Content="E4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="5" Margin="2" Padding="3" Name="F4" Content="F4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="6" Margin="2" Padding="3" Name="G4" Content="G4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="7" Margin="2" Padding="3" Name="H4" Content="H4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="8" Margin="2" Padding="3" Name="J4" Content="J4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="3" Grid.Row="9" Margin="2" Padding="3" Name="K4" Content="K4" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 5-->
+            <Button Grid.Column="4" Margin="2" Padding="3"  Name="A5" Content="A5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="1" Margin="2" Padding="3" Name="B5" Content="B5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="2" Margin="2" Padding="3" Name="C5" Content="C5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="3" Margin="2" Padding="3" Name="D5" Content="D5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="4" Margin="2" Padding="3" Name="E5" Content="E5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="5" Margin="2" Padding="3" Name="F5" Content="F5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="6" Margin="2" Padding="3" Name="G5" Content="G5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="7" Margin="2" Padding="3" Name="H5" Content="H5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="8" Margin="2" Padding="3" Name="J5" Content="J5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="4" Grid.Row="9" Margin="2" Padding="3" Name="K5" Content="K5" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 6-->
+            <Button Grid.Column="5" Margin="2" Padding="3"  Name="A6" Content="A6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="1" Margin="2" Padding="3" Name="B6" Content="B6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="2" Margin="2" Padding="3" Name="C6" Content="C6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="3" Margin="2" Padding="3" Name="D6" Content="D6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="4" Margin="2" Padding="3" Name="E6" Content="E6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="5" Margin="2" Padding="3" Name="F6" Content="F6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="6" Margin="2" Padding="3" Name="G6" Content="G6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="7" Margin="2" Padding="3" Name="H6" Content="H6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="8" Margin="2" Padding="3" Name="J6" Content="J6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="5" Grid.Row="9" Margin="2" Padding="3" Name="K6" Content="K6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 7-->
+            <Button Grid.Column="6" Margin="2" Padding="3"  Name="A7" Content="A7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="1" Margin="2" Padding="3" Name="B7" Content="B7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="2" Margin="2" Padding="3" Name="C7" Content="C7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="3" Margin="2" Padding="3" Name="D7" Content="D7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="4" Margin="2" Padding="3" Name="E7" Content="E7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="5" Margin="2" Padding="3" Name="F7" Content="F7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="6" Margin="2" Padding="3" Name="G7" Content="G7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="7" Margin="2" Padding="3" Name="H7" Content="H7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="6" Grid.Row="8" Margin="2" Padding="3" Name="J7" Content="J7" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!--<Button Grid.Column="6" Grid.Row="9" Margin="2" Padding="3" Name="K7" Content="K7" Click="SeatClick"/>-->
+            <!-- KOLUMNA 8-->
+            <Button Grid.Column="7" Margin="2" Padding="3"  Name="A8" Content="A8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="1" Margin="2" Padding="3" Name="B8" Content="B6" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="2" Margin="2" Padding="3" Name="C8" Content="C8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="3" Margin="2" Padding="3" Name="D8" Content="D8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="4" Margin="2" Padding="3" Name="E8" Content="E8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="5" Margin="2" Padding="3" Name="F8" Content="F8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="6" Margin="2" Padding="3" Name="G8" Content="G8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="7" Margin="2" Padding="3" Name="H8" Content="H8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="7" Grid.Row="8" Margin="2" Padding="3" Name="J8" Content="J8" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!--<Button Grid.Column="7" Grid.Row="9" Margin="2" Padding="3" Name="K8" Content="K8" Click="SeatClick"/>-->
+            <!-- KOLUMNA 9-->
+            <Button Grid.Column="8" Margin="2" Padding="3"  Name="A9" Content="A9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="1" Margin="2" Padding="3" Name="B9" Content="B9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="2" Margin="2" Padding="3" Name="C9" Content="C9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="3" Margin="2" Padding="3" Name="D9" Content="D9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="4" Margin="2" Padding="3" Name="E9" Content="E9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="5" Margin="2" Padding="3" Name="F9" Content="F9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="6" Margin="2" Padding="3" Name="G9" Content="G9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="7" Margin="2" Padding="3" Name="H9" Content="H9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="8" Grid.Row="8" Margin="2" Padding="3" Name="J9" Content="J9" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!--<Button Grid.Column="8" Grid.Row="9" Margin="2" Padding="3" Name="K9" Content="K9" Click="SeatClick"/>-->
+            <!-- KOLUMNA 10-->
+            <Button Grid.Column="9" Margin="2" Padding="3"  Name="A10" Content="A10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="1" Margin="2" Padding="3" Name="B10" Content="B10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="2" Margin="2" Padding="3" Name="C10" Content="C10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="3" Margin="2" Padding="3" Name="D10" Content="D10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="4" Margin="2" Padding="3" Name="E10" Content="E10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="5" Margin="2" Padding="3" Name="F10" Content="F10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="6" Margin="2" Padding="3" Name="G10" Content="G10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="7" Margin="2" Padding="3" Name="H10" Content="H10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="9" Grid.Row="8" Margin="2" Padding="3" Name="J10" Content="J10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!--<Button Grid.Column="9" Grid.Row="9" Margin="2" Padding="3" Name="K10" Content="K10" Click="SeatClick"/>-->
+            <!-- KOLUMNA 11-->
+            <Button Grid.Column="10" Margin="2" Padding="3"  Name="A11" Content="A11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="1" Margin="2" Padding="3" Name="B11" Content="B11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="2" Margin="2" Padding="3" Name="C11" Content="C11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="3" Margin="2" Padding="3" Name="D11" Content="D11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="4" Margin="2" Padding="3" Name="E11" Content="E11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="5" Margin="2" Padding="3" Name="F11" Content="F11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="6" Margin="2" Padding="3" Name="G11" Content="G11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="7" Margin="2" Padding="3" Name="H11" Content="H11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="10" Grid.Row="8" Margin="2" Padding="3" Name="J11" Content="J11" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!--<Button Grid.Column="10" Grid.Row="9" Margin="2" Padding="3" Name="K11" Content="K11" Click="SeatClick"/>-->
+            <!-- KOLUMNA 12-->
+            <Button Grid.Column="11" Margin="2" Padding="3"  Name="A12" Content="A12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="1" Margin="2" Padding="3" Name="B12" Content="B12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="2" Margin="2" Padding="3" Name="C12" Content="C12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="3" Margin="2" Padding="3" Name="D12" Content="D12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="4" Margin="2" Padding="3" Name="E12" Content="E12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="5" Margin="2" Padding="3" Name="F12" Content="F12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="6" Margin="2" Padding="3" Name="G12" Content="G12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="7" Margin="2" Padding="3" Name="H12" Content="H12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="8" Margin="2" Padding="3" Name="J12" Content="J12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="11" Grid.Row="9" Margin="2" Padding="3" Name="K12" Content="K12" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 13-->
+            <Button Grid.Column="12" Margin="2" Padding="3"  Name="A13" Content="A10" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="1" Margin="2" Padding="3" Name="B13" Content="B13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="2" Margin="2" Padding="3" Name="C13" Content="C13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="3" Margin="2" Padding="3" Name="D13" Content="D13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="4" Margin="2" Padding="3" Name="E13" Content="E13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="5" Margin="2" Padding="3" Name="F13" Content="F13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="6" Margin="2" Padding="3" Name="G13" Content="G13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="7" Margin="2" Padding="3" Name="H13" Content="H13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="8" Margin="2" Padding="3" Name="J13" Content="J13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="12" Grid.Row="9" Margin="2" Padding="3" Name="K13" Content="K13" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 14-->
+            <Button Grid.Column="13" Margin="2" Padding="3"  Name="A14" Content="A14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="1" Margin="2" Padding="3" Name="B14" Content="B14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="2" Margin="2" Padding="3" Name="C14" Content="C14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="3" Margin="2" Padding="3" Name="D14" Content="D14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="4" Margin="2" Padding="3" Name="E14" Content="E14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="5" Margin="2" Padding="3" Name="F14" Content="F14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="6" Margin="2" Padding="3" Name="G14" Content="G14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="7" Margin="2" Padding="3" Name="H14" Content="H14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="8" Margin="2" Padding="3" Name="J14" Content="J14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="13" Grid.Row="9" Margin="2" Padding="3" Name="K14" Content="K14" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 15-->
+            <Button Grid.Column="14" Margin="2" Padding="3"  Name="A15" Content="A15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="1" Margin="2" Padding="3" Name="B15" Content="B15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="2" Margin="2" Padding="3" Name="C15" Content="C15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="3" Margin="2" Padding="3" Name="D15" Content="D15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="4" Margin="2" Padding="3" Name="E15" Content="E15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="5" Margin="2" Padding="3" Name="F15" Content="F15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="6" Margin="2" Padding="3" Name="G15" Content="G15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="7" Margin="2" Padding="3" Name="H15" Content="H15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="8" Margin="2" Padding="3" Name="J15" Content="J15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="14" Grid.Row="9" Margin="2" Padding="3" Name="K15" Content="K15" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 16-->
+            <Button Grid.Column="15" Grid.Row="2" Margin="2" Padding="3" Name="C16" Content="C16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="3" Margin="2" Padding="3" Name="D16" Content="D16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="4" Margin="2" Padding="3" Name="E16" Content="E16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="5" Margin="2" Padding="3" Name="F16" Content="F16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="6" Margin="2" Padding="3" Name="G16" Content="G16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="7" Margin="2" Padding="3" Name="H16" Content="H16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="8" Margin="2" Padding="3" Name="J16" Content="J16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="15" Grid.Row="9" Margin="2" Padding="3" Name="K16" Content="K16" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 17-->
+            <Button Grid.Column="16" Grid.Row="8" Margin="2" Padding="3" Name="J17" Content="K17" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="16" Grid.Row="9" Margin="2" Padding="3" Name="K17" Content="J17" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 18-->
+            <Button Grid.Column="17" Grid.Row="8" Margin="2" Padding="3" Name="J18" Content="K18" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="17" Grid.Row="9" Margin="2" Padding="3" Name="K18" Content="J18" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 19-->
+            <Button Grid.Column="18" Grid.Row="8" Margin="2" Padding="3" Name="J19" Content="K19" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="18" Grid.Row="9" Margin="2" Padding="3" Name="K19" Content="J19" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <!-- KOLUMNA 20-->
+            <Button Grid.Column="19" Grid.Row="8" Margin="2" Padding="3" Name="J20" Content="J20" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+            <Button Grid.Column="19" Grid.Row="9" Margin="2" Padding="3" Name="K20" Content="K20" Click="SeatClick" Style="{StaticResource SeatButtonStyle}"/>
+        </Grid>
+        <StackPanel Margin="5" Grid.Row="2" Orientation="Horizontal">
+            <Label Margin="0 5" Content="Miejsce wolne:"/>
+            <Button Background="LightGreen" Margin="5" Padding="10 3" Content="XX" Style="{StaticResource SeatButtonStyle}"/>
+            <Label Margin="0 5" Content="Miejsce zajęte:"/>
+            <Button Margin="5" Padding="10 3" Content="XX" IsEnabled="False" Style="{StaticResource SeatButtonStyle}"/>
+            <Label Margin="0 5" Content="Miejsce wybrane:"/>
+            <Button Background="DeepSkyBlue"  Margin="5" Padding="10 3" Content="XX" Style="{StaticResource SeatButtonStyle}"/>
+        </StackPanel>
+        <StackPanel Margin="5" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="5" Padding="15 5" Content="Anuluj" IsCancel="True" />
+            <Button Margin="5" Padding="15 5" Content="Zatwierdź" Click="AcceptButton"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

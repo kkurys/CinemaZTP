@@ -4,9 +4,546 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cinema"
+        xmlns:converters="clr-namespace:Cinema.converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <converters:BoolToOppositeBoolConverter x:Key="BoolOppositeConverter" />
+        <converters:ListToStringConverter x:Key="ListToStringConverter" />
+        <converters:TicketTypeConverter x:Key="TicketTypeConverter" />
+
+        <Style x:Key="boldBigText" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style x:Key="bigText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+        <Style x:Key="blackTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="blackTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="blackLabel" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+        <Style x:Key="nonHighlight" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="Border" Margin="2">
+                            <ContentPresenter>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FF67BD53" Offset="0" />
+                                            <GradientStop Color="#FF196607" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter TargetName="Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FF0080FF" Offset="0" />
+                                            <GradientStop Color="#FF02498F" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="MovieDataTemplate">
+            <Grid Name="MovieTemplateGrid">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1"  FontWeight="Bold" FontSize="18" VerticalAlignment="Bottom" Text="{Binding Path=Title}" TextWrapping="Wrap" Foreground="White" />
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock FontSize="16" Text="{Binding Path=Production}" Foreground="White" />
+                        <TextBlock FontSize="16" Margin="1 0" Text="," Foreground="White" />
+                        <TextBlock FontSize="16" FontStyle="Italic" Margin="5 0 0 0" Text="{Binding Path=LengthString}" Foreground="White" />
+                    </StackPanel>
+                    <Image Grid.Column="0" Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
+                             Source="{Binding Img.Source}"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ShowDataTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="ikona" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="18" VerticalAlignment="Bottom" Text="{Binding Path=Movie.Title}" Foreground="White" TextWrapping="Wrap" />
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock FontSize="16" Text="{Binding Path=ShortDate}"  Foreground="White" />
+                    <TextBlock FontSize="16" Margin="5 0" Text="/" Foreground="White"  />
+                    <TextBlock FontSize="16" Text="{Binding Path=ShortStartTime}"  Foreground="White" />
+                    <TextBlock FontSize="16" Margin="5 0" Text="/ sala:" Foreground="White"  />
+                    <TextBlock FontSize="16" Text="{Binding Path=Hall}"  Foreground="White" />
+                </StackPanel>
+                <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
+                             Source="{Binding Movie.Img.Source}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ReservationDataTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="ikona" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="18" Text="{Binding Path=Name}" TextWrapping="Wrap" Foreground="White"  />
+                    <TextBlock Grid.Column="1" Margin="5 0" FontWeight="Bold" FontSize="18" Text="{Binding Path=Surname}" TextWrapping="Wrap" Foreground="White"  />
+                    <TextBlock Grid.Column="1" FontSize="13" Text="{Binding Path=Id}" TextWrapping="Wrap" Foreground="White"  />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock Grid.Column="1" FontSize="16" FontStyle="Italic" Text="{Binding Path=Show.Movie.Title}" TextWrapping="Wrap" Foreground="White"  />
+                    <TextBlock FontSize="16" Margin="5 0" Text="/" Foreground="White"  />
+                    <TextBlock FontSize="16" Text="{Binding Path=Show.ShortDate}" Foreground="White"  />
+                    <TextBlock FontSize="16" Margin="5 0" Text="/" Foreground="White"  />
+                    <TextBlock FontSize="16" Text="{Binding Path=Show.ShortStartTime}" Foreground="White"  />
+                    <TextBlock FontSize="16" Margin="5 0" Text="/ Sala" Foreground="White"  />
+                    <TextBlock FontSize="16" Text="{Binding Path=Show.Hall}" Foreground="White"  />
+                </StackPanel>
+                <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
+                             Source="{Binding Show.Movie.Img.Source}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="GroupTemplate">
+            <TextBlock Text="{Binding Path=Name}"
+                        FontWeight="Bold" Foreground="White" Background="#FFDC5609"
+                        Margin="0,5,0,0" Padding="3"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        
+        <TabControl Name="TCMainWindow">
+            <!-- ||||||||||||||||   REPERTUAR   ||||||||||||||||  -->
+            <TabItem Header="Repertuar" DataContext="{Binding ElementName=LBRepertuar, Path=SelectedItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" MinWidth="250"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0" Margin="5">
+                            <GroupBox.Header>
+                                <TextBlock Text="Wszystkie filmy" FontSize="15"/>
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox SelectedIndex="0" Margin="5" Width="Auto">
+                                        <ComboBoxItem Selected="SortNone">Bez sortowania</ComboBoxItem>
+                                        <ComboBoxItem Selected="SortTitle">Tytuł</ComboBoxItem>
+                                        <ComboBoxItem Selected="SortPremiereDate">Data premiery</ComboBoxItem>
+                                    </ComboBox>
+                                    <ComboBox Grid.Column="1" SelectedIndex="0" Margin="5">
+                                        <ComboBoxItem Selected="GroupNone">Bez grupowania</ComboBoxItem>
+                                        <ComboBoxItem Selected="GroupGenre">Gatunek</ComboBoxItem>
+                                        <ComboBoxItem Selected="GroupProduction">Produkcja</ComboBoxItem>
+                                    </ComboBox>
+                                </Grid>
+                                <ListBox Name="LBRepertuar" Margin="5" Grid.Row="1"
+                                         ItemTemplate="{StaticResource MovieDataTemplate}"
+                                         ItemContainerStyle="{StaticResource nonHighlight}"
+                                         HorizontalContentAlignment="Stretch"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                         MouseDoubleClick="EditMovie">
+
+                                    <ListBox.GroupStyle>
+                                        <GroupStyle HeaderTemplate="{StaticResource GroupTemplate}"/>
+                                    </ListBox.GroupStyle>
+                                </ListBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Margin="5">
+                            <GroupBox.Header>
+                                <TextBlock Text="Szczegóły filmu" FontSize="15"/>
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Name="FilmImage" Grid.Column="0" Margin="5" VerticalAlignment="Top" Source="{Binding Img.Source}"/>
+                                <Grid Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*" MinWidth="100"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <!-- LEFT -->
+                                    <Label Grid.Row="0" Style="{StaticResource boldBigText}"
+                                           Content="Tytuł:"/>
+                                    <Label Grid.Row="1" Style="{StaticResource boldBigText}"
+                                           Content="Reżyser:"/>
+                                    <Label Grid.Row="2" Style="{StaticResource boldBigText}"
+                                           Content="Scenariusz:"/>
+                                    <Label Grid.Row="3" Style="{StaticResource boldBigText}"
+                                           Content="Data premiery:"/>
+                                    <Label Grid.Row="4" Style="{StaticResource boldBigText}"
+                                           Content="Gatunek:"/>
+                                    <Label Grid.Row="5" Style="{StaticResource boldBigText}"
+                                           Content="Produkcja:"/>
+                                    <Label Grid.Row="6" Style="{StaticResource boldBigText}"
+                                           Content="Czas trwania:"/>
+                                    <Label Grid.Row="7" Style="{StaticResource boldBigText}"
+                                           Content="Opis:"/>
+                                    <!-- RIGHT -->
+                                    <TextBlock Name="TBTitle" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Title}"></TextBlock>
+                                    <TextBlock Name="TBDirector" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Director}"></TextBlock>
+                                    <TextBlock Name="TBWriter" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Writer}"></TextBlock>
+                                    <TextBlock Name="TBPremiereDate" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding PremiereDateOnly}"></TextBlock>
+                                    <TextBlock Name="TBGenre" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Genre}"></TextBlock>
+                                    <TextBlock Name="TBProduction" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Production}"></TextBlock>
+                                    <TextBlock Name="TBLength" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding LengthString}"></TextBlock>
+                                    <ScrollViewer Grid.Row="7" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                        <TextBlock Name="TBDescription" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
+                                               Text="{Binding Description}" ></TextBlock>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <DockPanel Grid.Row="1">
+                        <Button Content="Dodaj film" Margin="5" Padding="10, 3" Name="BTAddMovie" Click="AddMovie" ></Button>
+                        <Button Content="Usuń film" Margin="5" Padding="10, 3" Name="BTRemoveMovie"  CommandParameter="{Binding ElementName=LBRepertuar}"></Button>
+                        <Button Content="Edytuj film" Margin="5" Padding="10, 3" Name="BTEditMovie"  CommandParameter="{Binding ElementName=LBRepertuar}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Wyświetl seanse" Margin="5" Padding="15, 3"  ToolTip="Wyświetl seanse dla wybranego filmu"></Button>
+                            <Button Content="Zamknij" Margin="5" Padding="15, 3" Click="Close"></Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            <!-- ||||||||||||||||   SEANSE   ||||||||||||||||  -->
+            <TabItem Header="Seanse" DataContext="{Binding ElementName=LBShows, Path=SelectedItem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="139*"/>
+                        <ColumnDefinition Width="943*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="96*" MinWidth="350"></ColumnDefinition>
+                            <ColumnDefinition Width="445*"/>
+                            <ColumnDefinition Width="541*" MinWidth="220"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Margin="5" Grid.ColumnSpan="2">
+                            <GroupBox.Header>
+                                <TextBlock Name="TBGroupHeader" Text="Wszystkie seanse" FontSize="15"/>
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Name="BTPrev" FontFamily="Marlett" Content="3" Margin="20, 0, 0, 0"  ToolTip="Wyświetl poprzedni dzień"></Button>
+                                    <Label Name="LBCurrentDate" Grid.Column="1" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"></Label>
+                                    <Button Name="BTShowAll" Grid.Column="1" HorizontalAlignment="Center" Visibility="Hidden" Content="POKAŻ WSZYSTKIE NA DZIŚ" Click="DisplayShowsForToday"></Button>
+                                    <Button Name="BTNext" Grid.Column="2" FontFamily="Marlett" Content="4" Margin="0,0,5,0"  ToolTip="Wyświetl następny dzień"></Button>
+                                </Grid>
+
+                                <ListBox Name="LBShows" Margin="5" Grid.Row="1"
+                                         ItemTemplate="{StaticResource ShowDataTemplate}"
+                                         ItemContainerStyle="{StaticResource nonHighlight}"
+                                         HorizontalContentAlignment="Stretch"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox.GroupStyle>
+                                        <GroupStyle HeaderTemplate="{StaticResource GroupTemplate}"/>
+                                    </ListBox.GroupStyle>
+                                </ListBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="2" Margin="5" Name="GBReservation">
+                            <GroupBox.Header>
+                                <TextBlock Text="Nowa rezerwacja" FontSize="15"/>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <Grid Name="NewReservationGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="Imię"/>
+                                    <TextBox Grid.Row="1" x:Name="TBName" Padding="3" TextWrapping="Wrap">
+                                        <TextBox.Text>
+                                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                                <Binding.ValidationRules>
+                                                    <local:ValidNameRule></local:ValidNameRule>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                    <Label Grid.Row="2" Content="Nazwisko"/>
+                                    <TextBox Grid.Row="3" x:Name="TBSurname" Padding="3" TextWrapping="Wrap">
+                                        <TextBox.Text>
+                                            <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                                <Binding.ValidationRules>
+                                                    <local:ValidNameRule></local:ValidNameRule>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                    <GroupBox Grid.Row="4" Padding="3" Margin="0 5">
+                                        <GroupBox.Header>
+                                            <TextBlock Text="Rodzaj operacji"/>
+                                        </GroupBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton Margin="0, 0, 20, 0" x:Name="EnabledRadioButton" Content="Sprzedaż" GroupName="Enabler"
+                                                         IsChecked="{Binding Path=WasPaid}"/>
+                                            <RadioButton x:Name="DisabledRadioButton" Content="Rezerwacja" GroupName="Enabler" />
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <GroupBox Grid.Row="5" Padding="3" Margin="0 5" IsEnabled="{Binding ElementName=EnabledRadioButton, Path=IsChecked}">
+                                        <GroupBox.Header>
+                                            <TextBlock Text="Rodzaj biletu"/>
+                                        </GroupBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton Margin="0, 0, 20, 0" Name="RBTicketNormalny" Content="Normalny"
+                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=Standard}"/>
+                                            <RadioButton Name="RBTicketUlgowy" Content="Ulgowy"
+                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=HalfPrices}"/>
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <Label Grid.Row="6" Content="Miejsce"/>
+                                    <Grid Grid.Row="7">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Name="TBPlace" Margin="5 0" Padding="3" TextWrapping="Wrap" 
+                                                   Text="{Binding Path=Seats, Converter={StaticResource ListToStringConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Style="{StaticResource blackTextBlock}"/>
+                                        <Button Grid.Column="1" Name="BTShowAudience" Margin="5 0" Padding="15, 3" Content="Podgląd sali" Height="26" VerticalAlignment="Top"></Button>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                    <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Content="Zarządzaj seansami" Margin="5" Padding="15, 3" Click="OpenShowsWindow"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <!--
+                            <Button Content="Anuluj" Margin="5" Padding="15, 3"></Button>
+                            -->
+                            <Button Content="Dodaj" Margin="5" Padding="15, 3" ToolTip="Utwórz nową rezerwację"></Button>
+                            <Button Content="Zamknij" Margin="5" Padding="15, 3" Click="Close"></Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- ||||||||||||||||   REZERWACJE   ||||||||||||||||  -->
+            <TabItem Header="Rezerwacje" DataContext="{Binding ElementName=LBReservedList, Path=SelectedItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MinWidth="350"></ColumnDefinition>
+                            <ColumnDefinition Width="*" MinWidth="220"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Margin="5">
+                            <GroupBox.Header>
+                                <TextBlock Text="Wszystkie rezerwacje" FontSize="15"/>
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*" MaxWidth="55"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Imię:"></Label>
+                                    <TextBox Name="TBResName" Grid.Column="1" Padding="3" Text="" TextChanged="ReservFilterChanged"></TextBox>
+                                    <Label Grid.Column="2" Content="Nazwisko:"></Label>
+                                    <TextBox Name="TBResSurname" Grid.Column="3" Padding="3" Text="" TextChanged="ReservFilterChanged"></TextBox>
+                                    <Label Grid.Column="4" Content="Nr rezerwacji:"></Label>
+                                    <TextBox Name="TBId" Grid.Column="5" Padding="3" Text="" TextChanged="ReservFilterChanged"></TextBox>
+                                </Grid>
+                                <ListBox Grid.Row="1" Name="LBReservedList" Margin="5"
+                                         ItemTemplate="{StaticResource ReservationDataTemplate}" 
+                                         ItemContainerStyle="{StaticResource nonHighlight}"
+                                         HorizontalContentAlignment="Stretch"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         SelectionChanged="ReservationSelected">
+                                </ListBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Margin="5" IsEnabled="False" Name="GBReservationDetails">
+                            <!-- ZROBIC BINDOWANIE NA HEADER GROUPBOXA JAKO REZERWACJA + NUMER ?? -->
+                            <GroupBox.Header>
+                                <TextBlock Text="Dane rezerwacji" FontSize="15"/>
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Content="Imię"/>
+                                <TextBox Grid.Row="1" x:Name="TBReservedName" Padding="3" TextWrapping="Wrap">
+                                    <TextBox.Text>
+                                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                            <Binding.ValidationRules>
+                                                <local:ValidNameRule></local:ValidNameRule>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <Label Grid.Row="2" Content="Nazwisko"/>
+                                <TextBox Grid.Row="3" x:Name="TBReservedSurname" Padding="3" TextWrapping="Wrap">
+                                    <TextBox.Text>
+                                        <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                            <Binding.ValidationRules>
+                                                <local:ValidNameRule></local:ValidNameRule>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <GroupBox Grid.Row="4" Padding="3" Margin="0 5">
+                                    <GroupBox.Header>
+                                        <TextBlock Text="Rodzaj biletu"/>
+                                    </GroupBox.Header>
+                                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}">
+                                        <RadioButton Margin="0, 0, 20, 0" Name="RBTicketReservedNormalny" Content="Normalny"
+                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=Standard}"/>
+                                        <RadioButton Name="RBTicketReservedUlgowy" Content="Ulgowy"
+                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=HalfPrices}"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <CheckBox Margin="5" Grid.Row="5" x:Name="CBPaid" Content="Zapłacono" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                          IsChecked="{Binding Path=WasPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
+
+                                <Label Grid.Row="6" Content="Miejsca"/>
+                                <Grid Grid.Row="7">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Name="TBReservedPlace" Margin="5 0" Padding="3" TextWrapping="Wrap" Text="{Binding Path=Seats, Converter={StaticResource ListToStringConverter}}" Style="{StaticResource blackTextBlock}"/>
+                                    <Button Grid.Column="1" Name="BTEditSeats" Margin="5 0" Padding="15, 3" Content="Podgląd sali" Height="26" VerticalAlignment="Top"></Button>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Grid.Row="8" Margin="0 5">
+                                    <Label Content="Numer rezerwacji: "></Label>
+                                    <TextBlock Margin="3 6" Text="{Binding Path=Id}" Style="{StaticResource blackTextBlock}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+
+                    <DockPanel Grid.Row="1">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Margin="5" Padding="15, 3" Name="button2" Content="Usuń"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Drukuj bilet" Margin="5" Padding="15 3" ></Button>
+                            <Button Content="Zamknij" Margin="5" Padding="15 3" Click="Close"></Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
