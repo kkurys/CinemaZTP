@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Cinema
+namespace Cinema.validators
 {
     public class ValidTimeRule : ValidationRule
     {
-      
+
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             string time = value as string;

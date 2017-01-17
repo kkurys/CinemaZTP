@@ -1,6 +1,6 @@
 ﻿namespace Cinema.Interfaces
 {
-    interface IReservationViewModel
+    public interface IReservationViewModel
     {
     }
 }

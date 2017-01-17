@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Custom\Commands\RelayCommand.cs" />
     <Compile Include="Custom\Commands\WpfCommands.cs" />
     <Compile Include="Custom\TicketBuilder\ETicket.cs" />
     <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Custom\TicketBuilder\Ticket.cs" />
     <Compile Include="Custom\TicketBuilder\TicketConcreteBuilder.cs" />
     <Compile Include="Interfaces\IBaseViewModel.cs" />
+    <Compile Include="Interfaces\BaseViewModel.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IDbManager.cs" />
     <Compile Include="Interfaces\IMovieViewModel.cs" />
@@ -82,9 +84,14 @@
     <Compile Include="Interfaces\ITicket.cs" />
     <Compile Include="Custom\DbManager.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Models\Week.cs" />
+    <Compile Include="ViewModels\DbManager.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="ViewModels\ShowViewModel.cs" />
+    <Compile Include="Views\MovieWindow.xaml.cs">
+      <DependentUpon>MovieWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShowsWindow.xaml.cs">
       <DependentUpon>ShowsWindow.xaml</DependentUpon>
     </Compile>
@@ -125,6 +132,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MovieWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShowsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

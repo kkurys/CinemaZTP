@@ -1,6 +1,11 @@
-﻿namespace Cinema.Interfaces
+﻿using System;
+
+namespace Cinema.Interfaces
 {
-    interface ICommand
+    public interface ICommand
     {
+        bool CanExecute(object param);
+        void Execute(object param);
+        event EventHandler CanExecuteChanged;
     }
 }

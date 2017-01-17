@@ -1,6 +1,6 @@
 ﻿namespace Cinema.Interfaces
 {
-    interface IShowViewModel : IBaseViewModel
+    public interface IShowViewModel
     {
         void Filter(params object[] parameters);
 
