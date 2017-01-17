@@ -1,6 +1,6 @@
 ﻿namespace Cinema.Interfaces
 {
-    interface IMovieViewModel
+    public interface IMovieViewModel
     {
     }
 }
