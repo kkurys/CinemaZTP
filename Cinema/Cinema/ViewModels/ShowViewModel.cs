@@ -117,15 +117,23 @@ namespace Cinema.ViewModels
 
             _showsToRemove = new List<Show>();
 
-            CurrentDate = DateTime.Now;
+            CurrentDate = DateTime.Today;
+            DateFrom = CurrentDate.ToString("dd-MM-yyyy");
+            DateTo = CurrentDate.AddDays(7).ToString("dd-MM-yyyy");
+
+            CurrentWeek = new Week(_currentDate);
 
             AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
             RemoveShowCommand = new RelayCommand(RemoveShow_Executed);
             PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
             NextWeekCommand = new RelayCommand(NextWeek_Executed);
-
+            _db.AddObserver(this);
             GetView(_showsToAdd).GroupDescriptions.Add(new PropertyGroupDescription("Title"));
             GetView(_showsToAdd).SortDescriptions.Add(new SortDescription("ShowDate", ListSortDirection.Ascending));
+        }
+        ~ShowsViewModel()
+        {
+            _db.RemoveObserver(this);
         }
         #endregion
 
@@ -199,6 +207,7 @@ namespace Cinema.ViewModels
         }
         public void SaveChanges()
         {
+            _db.RemoveObserver(this);
             foreach (Show s in _showsToRemove)
             {
                 _db.Delete(s);
@@ -240,7 +249,6 @@ namespace Cinema.ViewModels
             Show s = sender as Show;
             TimeSpan diff = s.ShowDate.Value - _currentDate;
             int day = diff.Days;
-
             _showsToRemove.Add(s);
             ShowsToAdd.Remove(s);
             GenerateTable(null, null);
@@ -275,7 +283,6 @@ namespace Cinema.ViewModels
                 DateFrom = _currentDate.ToString("dd/MM/yyyy");
                 DateTo = _currentDate.AddDays(7).ToString("dd/MM/yyyy");
                 CurrentWeek = new Week(_currentDate);
-                Filter();
                 _currentWeekNumber++;
                 GenerateTable(null, null);
             }
@@ -292,7 +299,6 @@ namespace Cinema.ViewModels
                 DateTo = _currentDate.AddDays(7).ToString("dd/MM/yyyy");
             }
             CurrentWeek = new Week(_currentDate);
-            Filter();
             _currentWeekNumber--;
             GenerateTable(null, null);
         }

@@ -63,10 +63,14 @@ namespace Cinema.ViewModels
             BuildETicketCommand = new RelayCommand(BuildETicket_Executed, BuildETicket_CanExecute);
 
             Init(db);
+            _db.AddObserver(this);
             ApplyDateFilter();
         }
         #endregion
-
+        ~MainViewModel()
+        {
+            _db.RemoveObserver(this);
+        }
         #region Properties
         public ObservableCollection<Reservation> Reservations
         {
@@ -507,16 +511,28 @@ namespace Cinema.ViewModels
                 {
                     Movies.Add(movie);
                 }
-            }
-            else if (t == typeof(Show))
-            {
                 var _actualShows = _db.GetObjects<Show>();
+                RemoveFilter();
                 Shows.Clear();
 
                 foreach (var show in _actualShows)
                 {
                     Shows.Add(show);
                 }
+                var _day = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+                ApplyDateFilter(_day);
+            }
+            else if (t == typeof(Show))
+            {
+                var _actualShows = _db.GetObjects<Show>();
+                Shows.Clear();
+             //   RemoveFilter();
+                foreach (var show in _actualShows)
+                {
+                      Shows.Add(show);
+                } 
+                var day = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+            //    ApplyDateFilter(day);
             }
             else if (t == typeof(Reservation))
             {
@@ -530,5 +546,6 @@ namespace Cinema.ViewModels
             }
         }
         #endregion
+
     }
 }
