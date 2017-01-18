@@ -24,6 +24,7 @@ namespace Cinema.ViewModels
         private string _idFilter;
         private string _nameFilter;
         private string _surnameFilter;
+        private string _showDateFilter;
 
         private ObservableCollection<Show> _shows;
         private ObservableCollection<Movie> _movies;
@@ -34,6 +35,7 @@ namespace Cinema.ViewModels
         public MainViewModel(IDbManager db)
         {
             cultureInfo = new CultureInfo("pl-PL");
+            ShowDateFilter = DateTime.Now.ToShortDateString();
 
             _reservation = new Reservation();
             _shows = new ObservableCollection<Show>();
@@ -43,19 +45,21 @@ namespace Cinema.ViewModels
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
             EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
             AddMovieCommand = new RelayCommand(AddMovie_Executed);
+            NextDayCommand = new RelayCommand(NextDay_Executed);
+            PreviousDayCommand = new RelayCommand(PreviousDay_Executed);
+            ShowManageCommand = new RelayCommand(ShowManage_Executed);
 
             Init(db);
             LoadCollections();
+
+            ApplyDateFilter();
         }
         #endregion
 
         #region Properties
         public ObservableCollection<Reservation> Reservations
         {
-            get
-            {
-                return _reservations;
-            }
+            get { return _reservations; }
             set
             {
                 _reservations = value;
@@ -64,10 +68,7 @@ namespace Cinema.ViewModels
         }
         public ObservableCollection<Show> Shows
         {
-            get
-            {
-                return _shows;
-            }
+            get { return _shows; }
             set
             {
                 _shows = value;
@@ -76,10 +77,7 @@ namespace Cinema.ViewModels
         }
         public ObservableCollection<Movie> Movies
         {
-            get
-            {
-                return _movies;
-            }
+            get { return _movies; }
             set
             {
                 _movies = value;
@@ -95,11 +93,6 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("Reservation");
             }
         }
-
-        public ICommand DeleteMovieCommand { get; set; }
-        public ICommand EditMovieCommand { get; set; }
-        public ICommand AddMovieCommand { get; set; }
-
         public Movie SelectedMovie
         {
             get { return _selectedMovie; }
@@ -145,27 +138,23 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("SurnameFilter");
             }
         }
-        public ListCollectionView MoviesView
+
+        public string ShowDateFilter
         {
-            get
+            get { return _showDateFilter; }
+            set
             {
-                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_movies));
+                _showDateFilter = value;
+                OnPropertyChanged("ShowDateFilter");
             }
         }
-        public ListCollectionView ShowsView
-        {
-            get
-            {
-                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_shows));
-            }
-        }
-        private ListCollectionView ReservationsView
-        {
-            get
-            {
-                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_reservations));
-            }
-        }
+        public ICommand DeleteMovieCommand { get; set; }
+        public ICommand EditMovieCommand { get; set; }
+        public ICommand AddMovieCommand { get; set; }
+        public ICommand NextDayCommand { get; set; }
+        public ICommand PreviousDayCommand { get; set; }
+        public ICommand ShowManageCommand { get; set; }
+
         #endregion
 
         #region Commands
@@ -194,6 +183,23 @@ namespace Cinema.ViewModels
             MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()));
             newMovie.Show();
         }
+        private void PreviousDay_Executed(object obj)
+        {
+            RemoveFilter();
+            var nextDay = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+            ApplyDateFilter(nextDay.AddDays(-1));
+        }
+        private void NextDay_Executed(object obj)
+        {
+            RemoveFilter();
+            var nextDay = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+            ApplyDateFilter(nextDay.AddDays(1));
+        }
+        private void ShowManage_Executed(object obj)
+        {
+            ShowsWindow showManage = new ShowsWindow(new ShowsViewModel(DbManager.GetInstance()));
+            showManage.Show();
+        }
         #endregion
 
         #region Methods
@@ -219,24 +225,47 @@ namespace Cinema.ViewModels
         #region Filters
         private void RemoveFilter()
         {
-            ShowsView.Filter = null;
+            GetView(_shows).Filter = null;
         }
         private void ApplyDateFilter()
         {
             var currentDate = DateTime.Today;
-            ShowsView.Filter = delegate (object item)
+            var view = GetView(_shows);
+            if (view != null)
             {
-                Show show = item as Show;
-                if (show.ShowDate == currentDate)
+                GetView(_shows).Filter = delegate (object item)
                 {
-                    return true;
-                }
-                return false;
-            };
+                    Show show = item as Show;
+                    if (show.ShowDate == currentDate)
+                    {
+                        return true;
+                    }
+                    return false;
+                };
+            }
+            ShowDateFilter = currentDate.ToShortDateString();
+        }
+        private void ApplyDateFilter(DateTime dateToSet)
+        {
+            var currentDate = dateToSet;
+            var view = GetView(_shows);
+            if (view != null)
+            {
+                GetView(_shows).Filter = delegate (object item)
+                {
+                    Show show = item as Show;
+                    if (show.ShowDate == currentDate)
+                    {
+                        return true;
+                    }
+                    return false;
+                };
+            }
+            ShowDateFilter = currentDate.ToShortDateString();
         }
         private void ApplyTitleFilter()
         {
-            ShowsView.Filter = delegate (object item)
+            GetView(_shows).Filter = delegate (object item)
             {
                 Show show = item as Show;
                 if (show.Movie.Title == SelectedMovie.Title)
@@ -251,7 +280,7 @@ namespace Cinema.ViewModels
         }
         private void ReservFilterChanged(object sender, TextChangedEventArgs e)
         {
-            ReservationsView.Filter = delegate (object item)
+            GetView(_reservations).Filter = delegate (object item)
             {
                 Reservation res = item as Reservation;
                 if (IdFilter != "")
