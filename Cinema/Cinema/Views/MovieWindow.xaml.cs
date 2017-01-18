@@ -47,7 +47,7 @@ namespace Cinema.Views
             {
                 _viewModel.MovieErrors = true;
             }
-            else if (!HasErrors(MainGrid))
+            else if (!HasErrors(MovieGrid))
             {
                 _viewModel.MovieErrors = false;
             }

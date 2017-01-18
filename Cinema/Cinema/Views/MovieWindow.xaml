@@ -31,7 +31,7 @@
             </Border>
         </DataTemplate>
     </Window.Resources>
-    <Grid Validation.Error="movieValidationError" Name="MainGrid">
+    <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -54,7 +54,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <GroupBox Header="Szczegóły" Margin="5" >
-                    <Grid>
+                    <Grid Validation.Error="movieValidationError" Name="MovieGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
