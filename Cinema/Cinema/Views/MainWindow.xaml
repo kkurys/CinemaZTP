@@ -316,6 +316,7 @@
                                 </Grid>
 
                                 <ListBox Name="LBShows" Margin="5" Grid.Row="1"
+                                         SelectedItem="{Binding SelectedShow}"
                                          ItemsSource="{Binding Shows}"
                                          ItemTemplate="{StaticResource ShowDataTemplate}"
                                          ItemContainerStyle="{StaticResource nonHighlight}"

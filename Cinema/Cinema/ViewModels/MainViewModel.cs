@@ -24,6 +24,7 @@ namespace Cinema.ViewModels
 
         private Reservation _reservation;
         private Movie _selectedMovie;
+        private Show _selectedShow;
         private string _idFilter;
         private string _nameFilter;
         private string _surnameFilter;
@@ -78,14 +79,20 @@ namespace Cinema.ViewModels
 
         public Movie SelectedMovie
         {
-            get
-            {
-                return _selectedMovie;
-            }
+            get { return _selectedMovie; }
             set
             {
                 _selectedMovie = value;
                 OnPropertyChanged("SelectedMovie");
+            }
+        }
+        public Show SelectedShow
+        {
+            get { return _selectedShow; }
+            set
+            {
+                _selectedShow = value;
+                OnPropertyChanged("SelectedShow");
             }
         }
         public string IdFilter
@@ -132,7 +139,8 @@ namespace Cinema.ViewModels
 
         private void DeleteMovie_Executed(object sender)
         {
-            Console.WriteLine("ZONK");
+            _db.Delete(SelectedMovie);
+            LoadCollections();
         }
         #endregion
 
@@ -146,7 +154,7 @@ namespace Cinema.ViewModels
 
         public void AddReservation()
         {
-            _reservation.ShowId = 4; // podpiąć zaznaczony seans z listboxa
+            _reservation.ShowId = SelectedShow.Id;
             _db.Add(_reservation);
         }
         
