@@ -14,7 +14,7 @@ namespace Cinema.ViewModels
         private Image _img;
         private DateTime? _premiereDate;
         private bool _isEdit, _movieErrors;
-        private string _description, _director, _genre, _imageFilename, _writer, _title;
+        private string _description, _director, _genre, _imageFilename, _writer, _title, _production;
         private int _length;
         #region ctors
         public MovieViewModel(IDbManager db)
@@ -134,6 +134,18 @@ namespace Cinema.ViewModels
             {
                 _title = value;
                 OnPropertyChanged("Title");
+            }
+        }
+        public string Production
+        {
+            get
+            {
+                return _production;
+            }
+            set
+            {
+                _production = value;
+                OnPropertyChanged("Production");
             }
         }
         public DateTime? PremiereDate

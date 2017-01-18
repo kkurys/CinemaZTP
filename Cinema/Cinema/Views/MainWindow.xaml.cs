@@ -57,7 +57,7 @@ namespace Cinema.Views
 
         private void AddMovie(object sender, RoutedEventArgs e)
         {
-            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()));
+            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()) { Close = Close });
             newMovie.Show();
         }
         /*

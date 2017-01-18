@@ -18,6 +18,7 @@ namespace Cinema.Views
             InitializeComponent();
 
             _viewModel = viewModel;
+            _viewModel.Close = Close;
         }
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
