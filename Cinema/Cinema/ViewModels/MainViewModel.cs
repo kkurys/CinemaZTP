@@ -27,7 +27,6 @@ namespace Cinema.ViewModels
         private string _reservationName;
         private string _reservationSurname;
         private bool _reservationWasPaid;
-        private bool _customerPaid;
         private Models.Ticket _reservationTicketType;
 
         private Movie _selectedMovie;
@@ -210,15 +209,6 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("ReservationErrors");
             }
         }
-        public bool CustomerPaid
-        {
-            get { return _customerPaid; }
-            set
-            {
-                _customerPaid = value;
-                OnPropertyChanged("CustomerPaid");
-            }
-        }
         public ICommand DeleteMovieCommand { get; set; }
         public ICommand EditMovieCommand { get; set; }
         public ICommand AddMovieCommand { get; set; }
@@ -358,10 +348,10 @@ namespace Cinema.ViewModels
             {
                 _ticket = b1.BuildTicket();
             }
-            CustomerPaid = true;
             SelectedReservation.WasPaid = true;
             _db.Update(SelectedReservation);
-            MessageBox.Show(_ticket.Identity);
+            TicketWindow t = new TicketWindow(_ticket);
+            t.Show();
         }
         private void BuildETicket_Executed(object obj)
         {
@@ -372,10 +362,10 @@ namespace Cinema.ViewModels
             {
                 _ticket = b2.BuildTicket();
             }
-            CustomerPaid = true;
             SelectedReservation.WasPaid = true;
             _db.Update(SelectedReservation);
-            MessageBox.Show(_ticket.Identity);
+            TicketWindow t = new TicketWindow(_ticket);
+            t.Show();
         }
         private bool BuildETicket_CanExecute(object obj)
         {

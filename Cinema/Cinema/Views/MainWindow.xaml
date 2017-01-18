@@ -527,7 +527,7 @@
 
                                 <CheckBox Margin="5" Grid.Row="5" x:Name="CBPaid" Content="Zapłacono" HorizontalAlignment="Left" VerticalAlignment="Top"
                                           Click="CBPaid_Click"
-                                          IsChecked="{Binding ElementName=MainGrid, Path=DataContext.CustomerPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
+                                          IsChecked="{Binding Path=WasPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
 
                                 <Label Grid.Row="6" Content="Miejsca"/>
                                 <Grid Grid.Row="7">

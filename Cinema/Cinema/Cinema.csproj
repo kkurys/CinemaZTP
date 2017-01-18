@@ -92,6 +92,9 @@
     <Compile Include="Views\ShowsWindow.xaml.cs">
       <DependentUpon>ShowsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TicketWindow.xaml.cs">
+      <DependentUpon>TicketWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\HallWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShowsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TicketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
