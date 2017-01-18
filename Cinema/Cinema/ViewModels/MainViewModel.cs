@@ -14,6 +14,7 @@ namespace Cinema.ViewModels
     {
         #region Fields
         private IDbManager _db;
+        private string _dateFormat = "yyyy/MM/dd";
 
         CultureInfo cultureInfo;
 
@@ -41,7 +42,7 @@ namespace Cinema.ViewModels
         public MainViewModel(IDbManager db)
         {
             cultureInfo = new CultureInfo("pl-PL");
-            ShowDateFilter = DateTime.Now.ToString("dd/MM/yyyy");
+            ShowDateFilter = DateTime.Now.ToString(_dateFormat);
 
 
             _reservation = new Reservation();
@@ -244,13 +245,13 @@ namespace Cinema.ViewModels
         private void PreviousDay_Executed(object obj)
         {
             RemoveFilter();
-            var nextDay = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+            var nextDay = DateTime.ParseExact(_showDateFilter, _dateFormat, null);
             ApplyDateFilter(nextDay.AddDays(-1));
         }
         private void NextDay_Executed(object obj)
         {
             RemoveFilter();
-            var nextDay = DateTime.ParseExact(_showDateFilter, "dd/MM/yyyy", null);
+            var nextDay = DateTime.ParseExact(_showDateFilter, _dateFormat, null);
             ApplyDateFilter(nextDay.AddDays(1));
         }
         private void ShowManage_Executed(object obj)
@@ -337,7 +338,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
+            ShowDateFilter = currentDate.ToString(_dateFormat);
         }
         private void ApplyDateFilter(DateTime dateToSet)
         {
@@ -355,7 +356,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
+            ShowDateFilter = currentDate.ToString(_dateFormat);
         }
         private void ApplyTitleFilter()
         {
