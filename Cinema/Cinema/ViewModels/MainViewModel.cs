@@ -6,7 +6,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Cinema.ViewModels
@@ -47,7 +46,7 @@ namespace Cinema.ViewModels
             ShowManageCommand = new RelayCommand(ShowManage_Executed);
 
             Init(db);
-            LoadCollections();
+            ApplyDateFilter();
         }
         #endregion
 
@@ -58,11 +57,7 @@ namespace Cinema.ViewModels
             {
                 return _reservations;
             }
-            set
-            {
-                _reservations = value;
-                OnPropertyChanged("Reservations");
-            }
+
         }
         public ObservableCollection<Show> Shows
         {
@@ -70,22 +65,13 @@ namespace Cinema.ViewModels
             {
                 return _shows;
             }
-            set
-            {
-                _shows = value;
-                OnPropertyChanged("Shows");
-            }
+
         }
         public ObservableCollection<Movie> Movies
         {
             get
             {
                 return _movies;
-            }
-            set
-            {
-                _movies = value;
-                OnPropertyChanged("Movies");
             }
         }
         public Reservation Reservation
