@@ -114,7 +114,7 @@ namespace Cinema.ViewModels
         {
             Init(db);
             _halls = new ObservableCollection<string> { "Wszystkie", "1", "2", "3", "4", "5" };
-            _showsToAdd = new ObservableCollection<Show>();
+
             _showsToRemove = new List<Show>();
 
             CurrentDate = DateTime.Now;
@@ -194,6 +194,7 @@ namespace Cinema.ViewModels
         {
             _db = db;
             _movies = new ObservableCollection<Movie>(db.GetObjects<Movie>());
+            _showsToAdd = new ObservableCollection<Show>(db.GetObjects<Show>());
 
         }
         public void SaveChanges()

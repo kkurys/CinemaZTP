@@ -34,7 +34,8 @@ namespace Cinema.ViewModels
         public MainViewModel(IDbManager db)
         {
             cultureInfo = new CultureInfo("pl-PL");
-            ShowDateFilter = DateTime.Now.ToShortDateString();
+            ShowDateFilter = DateTime.Now.ToString("dd/MM/yyyy");
+
 
             _reservation = new Reservation();
 
@@ -231,7 +232,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToShortDateString();
+            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
         }
         private void ApplyDateFilter(DateTime dateToSet)
         {
@@ -249,7 +250,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToShortDateString();
+            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
         }
         private void ApplyTitleFilter()
         {

@@ -67,8 +67,26 @@ namespace Cinema.ViewModels
 
         public void Delete(object obj)
         {
-            if (db.Entry(obj) == null) return;
-            db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
+            if (obj is Movie)
+            {
+                var objToDelete = obj as Movie;
+                if (db.Movies.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
+                db.Movies.Remove(obj as Movie);
+            }
+            else if (obj is Show)
+            {
+                var objToDelete = obj as Show;
+                if (db.Shows.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
+                db.Shows.Remove(obj as Show);
+            }
+            else if (obj is Reservation)
+            {
+                var objToDelete = obj as Reservation;
+                if (db.Reservations.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
+                db.Reservations.Remove(obj as Reservation);
+
+            }
+            //  db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
             if (db.SaveChanges() > 0)
             {
                 NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
