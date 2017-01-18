@@ -36,16 +36,12 @@ namespace Cinema.ViewModels
             cultureInfo = new CultureInfo("pl-PL");
 
             _reservation = new Reservation();
-            _shows = new ObservableCollection<Show>();
-            _movies = new ObservableCollection<Movie>();
-            _reservations = new ObservableCollection<Reservation>();
 
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
             EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
             AddMovieCommand = new RelayCommand(AddMovie_Executed);
 
             Init(db);
-            LoadCollections();
         }
         #endregion
 
@@ -56,22 +52,12 @@ namespace Cinema.ViewModels
             {
                 return _reservations;
             }
-            set
-            {
-                _reservations = value;
-                OnPropertyChanged("Reservations");
-            }
         }
         public ObservableCollection<Show> Shows
         {
             get
             {
                 return _shows;
-            }
-            set
-            {
-                _shows = value;
-                OnPropertyChanged("Shows");
             }
         }
         public ObservableCollection<Movie> Movies
@@ -80,11 +66,7 @@ namespace Cinema.ViewModels
             {
                 return _movies;
             }
-            set
-            {
-                _movies = value;
-                OnPropertyChanged("Movies");
-            }
+
         }
         public Reservation Reservation
         {
@@ -197,12 +179,7 @@ namespace Cinema.ViewModels
         #endregion
 
         #region Methods
-        public void LoadCollections()
-        {
-            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
-            _shows = new ObservableCollection<Show>(_db.GetObjects<Show>());
-            _reservations = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
-        }
+
 
         public void AddReservation()
         {
@@ -213,6 +190,9 @@ namespace Cinema.ViewModels
         public override void Init(IDbManager db)
         {
             _db = db;
+            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+            _shows = new ObservableCollection<Show>(_db.GetObjects<Show>());
+            _reservations = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
         }
         #endregion
 
@@ -287,8 +267,33 @@ namespace Cinema.ViewModels
         {
             if (t == typeof(Movie))
             {
-                _movies = null;
-                _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+                var _actualMovies = _db.GetObjects<Movie>();
+                Movies.Clear();
+
+                foreach (var movie in _actualMovies)
+                {
+                    Movies.Add(movie);
+                }
+            }
+            else if (t == typeof(Show))
+            {
+                var _actualShows = _db.GetObjects<Show>();
+                Shows.Clear();
+
+                foreach (var show in _actualShows)
+                {
+                    Shows.Add(show);
+                }
+            }
+            else if (t == typeof(Reservation))
+            {
+                var _actualReservations = _db.GetObjects<Reservation>();
+                Reservations.Clear();
+
+                foreach (var reservation in _actualReservations)
+                {
+                    Reservations.Add(reservation);
+                }
             }
         }
         #endregion

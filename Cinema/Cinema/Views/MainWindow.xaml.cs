@@ -21,7 +21,7 @@ namespace Cinema.Views
 
             _viewModel = new MainViewModel(DbManager.GetInstance());
             DbManager.GetInstance().AddObserver(_viewModel);
-            MainGrid.DataContext = new MainViewModel(DbManager.GetInstance());
+            MainGrid.DataContext = _viewModel;
         }
 
         #region methods

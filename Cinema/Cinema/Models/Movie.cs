@@ -15,5 +15,13 @@ namespace Cinema.Models
         public DateTime? PremiereDate { get; set; }
         public int Length { get; set; }
         public int NumberOfShows { get; set; }
+        public string ShortDate
+        {
+            get
+            {
+                return PremiereDate == null ? "" : PremiereDate.Value.ToString("dd/MM/yyyy");
+            }
+        }
+
     }
 }
