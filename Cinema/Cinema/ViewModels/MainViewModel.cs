@@ -369,7 +369,7 @@ namespace Cinema.ViewModels
         }
         private bool BuildETicket_CanExecute(object obj)
         {
-            if (_ticket == null || _ticket is ETicket)
+            if (_ticket == null)
             {
                 return true;
             }
@@ -380,7 +380,7 @@ namespace Cinema.ViewModels
         }
         private bool BuildTicket_CanExecute(object obj)
         {
-            if (_ticket == null || _ticket is TicketBuilder.Ticket)
+            if (_ticket == null)
             {
                 return true;
             }

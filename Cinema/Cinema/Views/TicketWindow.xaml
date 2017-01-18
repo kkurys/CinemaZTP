@@ -23,7 +23,7 @@
             <Label Content="Sala" Grid.Row="2" FontWeight="Bold" />
             <Label Content="Film" Grid.Row="3" FontWeight="Bold" />
 
-            <Label Name="IdentityLabel" Grid.ColumnSpan="2" />
+            <Label Name="IdentityLabel" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
             <Label Name="SeatsLabel" Grid.Column="1" Grid.Row="1" />
             <Label Name="HallLabel" Grid.Column="1" Grid.Row="2" />
             <Label Name="TitleLabel" Grid.Column="1" Grid.Row="3" />
