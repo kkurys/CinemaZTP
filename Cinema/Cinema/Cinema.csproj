@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Custom\DeleteOnTimeCommand.cs" />
     <Compile Include="Custom\Commands\RelayCommand.cs" />
     <Compile Include="Custom\TicketBuilder\ETicket.cs" />
     <Compile Include="Custom\TicketBuilder\ETicketConcreteBuilder.cs" />

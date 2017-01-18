@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
-    public class MovieViewModel : BaseViewModel, IMovieViewModel
+    public class MovieViewModel : BaseViewModel, IMovieViewModel, IObserver
     {
         private IDbManager _db;
         private Movie _movie;
@@ -223,6 +223,13 @@ namespace Cinema.ViewModels
                 _db.Add(_movie);
             }
             Close();
+        }
+        #endregion
+        // OBSERVER METHODE
+        #region observer
+        public void Update(Type t)
+        {
+            _movie = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
         }
         #endregion
     }

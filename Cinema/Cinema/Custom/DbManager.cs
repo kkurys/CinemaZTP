@@ -8,6 +8,7 @@ namespace Cinema.ViewModels
 {
     public class DbManager : IDbManager
     {
+        private IObserver observer;
         CinemaDbContext db = new CinemaDbContext();
 
         private static DbManager _instance;
@@ -51,28 +52,37 @@ namespace Cinema.ViewModels
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Added;
             db.SaveChanges();
+            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
         }
 
         public void Update(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
+            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
         }
 
         public void Delete(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
             db.SaveChanges();
+            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
         }
 
+        // OBSERVER METHODES
         public void AddObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            this.observer = observer;
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            this.observer = null;
         }
 
         public void NotifyObservers(Type t)
         {
-            throw new NotImplementedException();
+            this.observer.Update(t);
         }
     }
 }

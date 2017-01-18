@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
-    public class ShowsViewModel : BaseViewModel, IShowViewModel
+    public class ShowsViewModel : BaseViewModel, IShowViewModel, IObserver
     {
         #region fields
         private List<Show> _showsToRemove;
@@ -279,6 +279,13 @@ namespace Cinema.ViewModels
             {
                 return false;
             }
+        }
+        #endregion
+        // OBSERVER METHODE
+        #region observer
+        public void Update(Type t)
+        {
+            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
         }
         #endregion
     }
