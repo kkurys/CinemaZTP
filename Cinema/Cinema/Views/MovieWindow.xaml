@@ -44,7 +44,7 @@
             <GroupBox Header="Okładka" Margin="5">
                 <Image Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Name="image">
                     <Image.Source>
-                        <Binding Path="Img.Source" UpdateSourceTrigger="PropertyChanged"></Binding>
+                        <Binding Path="Image" UpdateSourceTrigger="PropertyChanged"></Binding>
                     </Image.Source>
                 </Image>
             </GroupBox>

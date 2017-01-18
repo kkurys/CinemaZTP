@@ -170,22 +170,6 @@
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <ComboBox SelectedIndex="0" Margin="5" Width="Auto">
-                                        <ComboBoxItem Selected="SortNone">Bez sortowania</ComboBoxItem>
-                                        <ComboBoxItem Selected="SortTitle">Tytuł</ComboBoxItem>
-                                        <ComboBoxItem Selected="SortPremiereDate">Data premiery</ComboBoxItem>
-                                    </ComboBox>
-                                    <ComboBox Grid.Column="1" SelectedIndex="0" Margin="5">
-                                        <ComboBoxItem Selected="GroupNone">Bez grupowania</ComboBoxItem>
-                                        <ComboBoxItem Selected="GroupGenre">Gatunek</ComboBoxItem>
-                                        <ComboBoxItem Selected="GroupProduction">Produkcja</ComboBoxItem>
-                                    </ComboBox>
-                                </Grid>
                                 <ListBox Name="LBRepertuar" Margin="5" Grid.Row="1"
                                          SelectedItem="{Binding SelectedMovie }"
                                          ItemsSource="{Binding Movies}"

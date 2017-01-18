@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
-    class MainViewModel : BaseViewModel, IMainViewModel, IObserver
+    class MainViewModel : BaseViewModel, IObserver
     {
         #region Fields
         private ITicket _ticket;

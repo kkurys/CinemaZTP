@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
-    public class ShowsViewModel : BaseViewModel, IShowViewModel, IObserver
+    public class ShowsViewModel : BaseViewModel, IObserver
     {
         #region fields
         private List<Show> _showsToRemove;

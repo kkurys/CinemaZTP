@@ -4,10 +4,11 @@ using Cinema.Models;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Cinema.ViewModels
 {
-    public class MovieViewModel : BaseViewModel, IMovieViewModel
+    public class MovieViewModel : BaseViewModel
     {
         private IDbManager _db;
         private Movie _movie;
@@ -64,6 +65,21 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("Img");
             }
         }
+        public BitmapImage Image
+        {
+            get
+            {
+                if (ImageFilename != null)
+                {
+                    return new BitmapImage(new Uri(ImageFilename));
+                }
+                else
+                {
+                    return new BitmapImage(new Uri("Content\no-icon.png", UriKind.Relative));
+                }
+            }
+        }
+
         public string ImageFilename
         {
             get
