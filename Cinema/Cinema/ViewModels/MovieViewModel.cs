@@ -210,7 +210,7 @@ namespace Cinema.ViewModels
             {
                 _db.Add(_movie);
             }
-
+            Close();
         }
         #endregion
     }
