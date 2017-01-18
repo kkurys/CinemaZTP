@@ -87,7 +87,7 @@
                         <TextBlock FontSize="16" FontStyle="Italic" Margin="5 0 0 0" Text="{Binding Path=Length}" Foreground="White" />
                     </StackPanel>
                     <Image Grid.Column="0" Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
-                             Source="{Binding Img.Source}"/>
+                             Source="{Binding Image}"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -110,7 +110,7 @@
                     <TextBlock FontSize="16" Text="{Binding Path=Hall}"  Foreground="White" />
                 </StackPanel>
                 <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
-                             Source="{Binding Movie.Img.Source}"/>
+                             Source="{Binding Movie.Image}"/>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ReservationDataTemplate">
@@ -138,7 +138,7 @@
                     <TextBlock FontSize="16" Text="{Binding Path=Show.Hall}" Foreground="White"  />
                 </StackPanel>
                 <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64"
-                             Source="{Binding Show.Movie.Img.Source}"/>
+                             Source="{Binding Show.Movie.Image}"/>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate">
@@ -210,7 +210,7 @@
                                     <ColumnDefinition Width="1.5*"></ColumnDefinition>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Image Name="FilmImage" Grid.Column="0" Margin="5" VerticalAlignment="Top" Source="{Binding Img.Source}"/>
+                                <Image Name="FilmImage" Grid.Column="0" Margin="5" VerticalAlignment="Top" Source="{Binding Image}"/>
                                 <Grid Grid.Column="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>

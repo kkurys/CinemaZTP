@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Cinema.Models
 {
@@ -20,6 +22,20 @@ namespace Cinema.Models
             get
             {
                 return PremiereDate == null ? "" : PremiereDate.Value.ToString("dd/MM/yyyy");
+            }
+        }
+        public BitmapImage Image
+        {
+            get
+            {
+                if (ImageFileName != null)
+                {
+                    return new BitmapImage(new Uri(ImageFileName));
+                }
+                else
+                {
+                    return new BitmapImage(new Uri("Content\no-icon.png", UriKind.Relative));
+                }
             }
         }
         public override string ToString()

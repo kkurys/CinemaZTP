@@ -19,7 +19,7 @@ namespace Cinema.ViewModels
         #region Fields
         private ITicket _ticket;
         private IDbManager _db;
-        private string _dateFormat = "yyyy/MM/dd";
+        private string _dateFormat = "dd/MM/yyyy";
 
         CultureInfo cultureInfo;
         

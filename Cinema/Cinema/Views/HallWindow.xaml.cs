@@ -40,15 +40,18 @@ namespace Cinema.Views
         private void PrepareHall(Show show)
         {
             Button btn;
-            foreach (Reservation reservation in show.Reservation)
+            if (show.Reservation != null)
             {
-                if (reservation.Seats != null)
+                foreach (Reservation reservation in show.Reservation)
                 {
-                    string[] seatsTaken = reservation.Seats.Split(';');
-                    foreach (string seat in seatsTaken)
+                    if (reservation.Seats != null)
                     {
-                        btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
-                        btn.IsEnabled = false;
+                        string[] seatsTaken = reservation.Seats.Split(';');
+                        foreach (string seat in seatsTaken)
+                        {
+                            btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
+                            btn.IsEnabled = false;
+                        }
                     }
                 }
             }
