@@ -183,5 +183,17 @@ namespace Cinema.Views
         {
             _viewModel.SaveReservation();
         }
+
+        private void LBReservedList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LBReservedList.SelectedIndex > -1 && ((Reservation)LBReservedList.SelectedItem).WasPaid == false)
+            {
+                GBReservationDetails.IsEnabled = true;
+            }
+            else
+            {
+                GBReservationDetails.IsEnabled = false;
+            }
+        }
     }
 }

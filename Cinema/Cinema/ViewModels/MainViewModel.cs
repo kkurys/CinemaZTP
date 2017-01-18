@@ -537,12 +537,16 @@ namespace Cinema.ViewModels
             else if (t == typeof(Reservation))
             {
                 var _actualReservations = _db.GetObjects<Reservation>();
-                Reservations.Clear();
-
-                foreach (var reservation in _actualReservations)
+                App.Current.Dispatcher.Invoke(delegate 
                 {
-                    Reservations.Add(reservation);
-                }
+
+                    Reservations.Clear();
+
+                    foreach (var reservation in _actualReservations)
+                    {
+                        Reservations.Add(reservation);
+                    }
+                });
             }
         }
         #endregion
