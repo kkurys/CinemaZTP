@@ -1,10 +1,11 @@
 ﻿using Cinema.Interfaces;
 using Cinema.Models;
+using System;
 using System.Windows.Controls;
 
 namespace Cinema.ViewModels
 {
-    public class MovieViewModel : BaseViewModel, IMovieViewModel
+    public class MovieViewModel : BaseViewModel, IMovieViewModel, IObserver
     {
         private IDbManager _db;
         private Movie _newMovie, _oldMovie;
@@ -66,6 +67,13 @@ namespace Cinema.ViewModels
         public override void Init(IDbManager db)
         {
             _db = db;
+        }
+        #endregion
+        // OBSERVER METHODE
+        #region observer
+        public void Update(Type t)
+        {
+            _movie = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
         }
         #endregion
     }
