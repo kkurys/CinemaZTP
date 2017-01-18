@@ -472,7 +472,7 @@
                                 </ListBox>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Column="1" Margin="5" IsEnabled="False" Name="GBReservationDetails" DataContext="{Binding ElementName=LBReservedList, Path=SelectedItem}">
+                        <GroupBox Grid.Column="1" Margin="5" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}" Name="GBReservationDetails" DataContext="{Binding ElementName=LBReservedList, Path=SelectedItem}">
                             <!-- ZROBIC BINDOWANIE NA HEADER GROUPBOXA JAKO REZERWACJA + NUMER ?? -->
                             <GroupBox.Header>
                                 <TextBlock Text="Dane rezerwacji" FontSize="15"/>
