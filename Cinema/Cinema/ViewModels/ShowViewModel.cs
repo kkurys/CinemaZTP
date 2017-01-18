@@ -117,7 +117,11 @@ namespace Cinema.ViewModels
 
             _showsToRemove = new List<Show>();
 
-            CurrentDate = DateTime.Now;
+            CurrentDate = DateTime.Today;
+            DateFrom = CurrentDate.ToString("dd-MM-yyyy");
+            DateTo = CurrentDate.AddDays(7).ToString("dd-MM-yyyy");
+
+            CurrentWeek = new Week(_currentDate);
 
             AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
             RemoveShowCommand = new RelayCommand(RemoveShow_Executed);
@@ -275,7 +279,6 @@ namespace Cinema.ViewModels
                 DateFrom = _currentDate.ToString("dd/MM/yyyy");
                 DateTo = _currentDate.AddDays(7).ToString("dd/MM/yyyy");
                 CurrentWeek = new Week(_currentDate);
-                Filter();
                 _currentWeekNumber++;
                 GenerateTable(null, null);
             }
@@ -292,7 +295,6 @@ namespace Cinema.ViewModels
                 DateTo = _currentDate.AddDays(7).ToString("dd/MM/yyyy");
             }
             CurrentWeek = new Week(_currentDate);
-            Filter();
             _currentWeekNumber--;
             GenerateTable(null, null);
         }
