@@ -44,7 +44,6 @@ namespace Cinema.ViewModels
             cultureInfo = new CultureInfo("pl-PL");
             ShowDateFilter = DateTime.Now.ToString(_dateFormat);
 
-
             _reservation = new Reservation();
 
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
@@ -331,7 +330,7 @@ namespace Cinema.ViewModels
                 GetView(_shows).Filter = delegate (object item)
                 {
                     Show show = item as Show;
-                    if (show.ShowDate == currentDate)
+                    if (show.ShowDate.Value.Date == currentDate.Date)
                     {
                         return true;
                     }
@@ -349,7 +348,7 @@ namespace Cinema.ViewModels
                 GetView(_shows).Filter = delegate (object item)
                 {
                     Show show = item as Show;
-                    if (show.ShowDate == currentDate)
+                    if (show.ShowDate.Value.Date == currentDate.Date)
                     {
                         return true;
                     }

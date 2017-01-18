@@ -53,16 +53,39 @@ namespace Cinema.ViewModels
         }
         public void Add(object obj)
         {
-            db.Entry(obj).State = System.Data.Entity.EntityState.Added;
-            db.SaveChanges();
-            NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            if (obj is Movie)
+            {
+                var objToAdd = obj as Movie;
+                if (db.Movies.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
+                db.Movies.Add(objToAdd);
+            }
+            else if (obj is Show)
+            {
+                var objToAdd = obj as Show;
+                if (db.Shows.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
+                db.Shows.Add(objToAdd);
+            }
+            else if (obj is Reservation)
+            {
+                var objToAdd = obj as Reservation;
+                if (db.Reservations.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
+                db.Reservations.Add(objToAdd);
+
+            }
+            if (db.SaveChanges() > 0)
+            {
+                NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            }
         }
 
         public void Update(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
-            NotifyObservers(obj.GetType());
+            if (db.SaveChanges() > 0)
+            {
+                NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            }
         }
 
         public void Delete(object obj)
@@ -71,22 +94,22 @@ namespace Cinema.ViewModels
             {
                 var objToDelete = obj as Movie;
                 if (db.Movies.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
-                db.Movies.Remove(obj as Movie);
+                db.Movies.Remove(objToDelete);
             }
             else if (obj is Show)
             {
                 var objToDelete = obj as Show;
                 if (db.Shows.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
-                db.Shows.Remove(obj as Show);
+                db.Shows.Remove(objToDelete);
             }
             else if (obj is Reservation)
             {
                 var objToDelete = obj as Reservation;
                 if (db.Reservations.ToList().Find(x => x.Id == objToDelete.Id) == null) return;
-                db.Reservations.Remove(obj as Reservation);
+                db.Reservations.Remove(objToDelete);
 
             }
-            //  db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
+
             if (db.SaveChanges() > 0)
             {
                 NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
