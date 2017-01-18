@@ -283,5 +283,33 @@ namespace Cinema.Views
         }
         #endregion
 
+        private bool HasErrors(DependencyObject gridInfo)
+        {
+            foreach (object child in LogicalTreeHelper.GetChildren(gridInfo))
+            {
+                TextBox element = child as TextBox;
+                if (element == null)
+                {
+                    continue;
+                }
+                if (Validation.GetHasError(element) || HasErrors(element))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private void reservationValidationError(object sender, ValidationErrorEventArgs e)
+        {
+
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                _viewModel.ReservationErrors = true;
+            }
+            else if (!HasErrors(NewReservationGrid))
+            {
+                _viewModel.ReservationErrors = false;
+            }
+        }
     }
 }

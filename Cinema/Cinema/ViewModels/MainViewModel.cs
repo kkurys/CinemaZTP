@@ -18,12 +18,19 @@ namespace Cinema.ViewModels
         CultureInfo cultureInfo;
 
         private Reservation _reservation;
+        private string _reservationSeats;
+        private string _reservationName;
+        private string _reservationSurname;
+        private bool _reservationWasPaid;
+        private Ticket _reservationTicketType;
+
         private Movie _selectedMovie;
         private Show _selectedShow;
         private string _idFilter;
         private string _nameFilter;
         private string _surnameFilter;
         private string _showDateFilter;
+        private bool _reservationErrors;
 
         private ObservableCollection<Show> _shows;
         private ObservableCollection<Movie> _movies;
@@ -34,7 +41,7 @@ namespace Cinema.ViewModels
         public MainViewModel(IDbManager db)
         {
             cultureInfo = new CultureInfo("pl-PL");
-            ShowDateFilter = DateTime.Now.ToShortDateString();
+            ShowDateFilter = DateTime.Now.ToString("dd/MM/yyyy");
 
             _reservation = new Reservation();
 
@@ -44,6 +51,8 @@ namespace Cinema.ViewModels
             NextDayCommand = new RelayCommand(NextDay_Executed);
             PreviousDayCommand = new RelayCommand(PreviousDay_Executed);
             ShowManageCommand = new RelayCommand(ShowManage_Executed);
+            AddReservationCommand = new RelayCommand(AddReservation_Executed, AddReservation_CanExecute);
+            HallCommand = new RelayCommand(Hall_Executed, Hall_CanExecute);
 
             Init(db);
             ApplyDateFilter();
@@ -79,8 +88,55 @@ namespace Cinema.ViewModels
             get { return _reservation; }
             set
             {
-                _reservation = value;
+                _reservation.Name = value.Name;
+                _reservation.Surname = value.Surname;
+                _reservation.TicketType = value.TicketType;
                 OnPropertyChanged("Reservation");
+            }
+        }
+        public string ReservationSeats
+        {
+            get { return _reservationSeats; }
+            set
+            {
+                _reservationSeats = value;
+                OnPropertyChanged("ReservationSeats");
+            }
+        }
+        public string ReservationName
+        {
+            get { return _reservationName; }
+            set
+            {
+                _reservationName = value;
+                OnPropertyChanged("ReservationName");
+            }
+        }
+        public string ReservationSurname
+        {
+            get { return _reservationSurname; }
+            set
+            {
+                _reservationSurname = value;
+                OnPropertyChanged("ReservationSurname");
+            }
+        }
+        public bool ReservationWasPaid
+        {
+            get { return _reservationWasPaid; }
+            set
+            {
+                _reservationWasPaid = value;
+                OnPropertyChanged("ReservationWasPaid");
+            }
+        }
+        public Ticket ReservationTicketType
+        {
+            get { return _reservationTicketType; }
+            set
+            {
+                _reservationTicketType = value;
+                OnPropertyChanged("ReservationTicketType");
             }
         }
         public Movie SelectedMovie
@@ -138,12 +194,23 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("ShowDateFilter");
             }
         }
+        public bool ReservationErrors
+        {
+            get { return _reservationErrors; }
+            set
+            {
+                _reservationErrors = value;
+                OnPropertyChanged("ReservationErrors");
+            }
+        }
         public ICommand DeleteMovieCommand { get; set; }
         public ICommand EditMovieCommand { get; set; }
         public ICommand AddMovieCommand { get; set; }
         public ICommand NextDayCommand { get; set; }
         public ICommand PreviousDayCommand { get; set; }
         public ICommand ShowManageCommand { get; set; }
+        public ICommand AddReservationCommand { get; set; }
+        public ICommand HallCommand { get; set; }
 
         #endregion
 
@@ -190,17 +257,55 @@ namespace Cinema.ViewModels
             ShowsWindow showManage = new ShowsWindow(new ShowsViewModel(DbManager.GetInstance()));
             showManage.Show();
         }
+        private bool AddReservation_CanExecute(object obj)
+        {
+            if (_selectedShow != null && !ReservationErrors)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private void AddReservation_Executed(object obj)
+        {
+            _reservation.ShowId = SelectedShow.Id;
+            _reservation.Seats = ReservationSeats;
+            _reservation.Name = ReservationName;
+            _reservation.Surname = ReservationSurname;
+            _reservation.WasPaid = ReservationWasPaid;
+            _reservation.TicketType = ReservationTicketType;
+            _db.Add(_reservation);
+            Reservation = new Reservation();
+            ReservationSeats = "";
+            ReservationName = "";
+            ReservationSurname = "";
+            ReservationWasPaid = false;
+            ReservationTicketType = Ticket.Standard;
+        }
+        private bool Hall_CanExecute(object obj)
+        {
+            if (_selectedShow != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private void Hall_Executed(object obj)
+        {
+            HallWindow hall = new HallWindow(SelectedShow);
+            if (hall.ShowDialog() == true)
+            {
+                ReservationSeats = String.Join(";", hall.reservedSeats.ToArray());
+            }
+        }
         #endregion
 
         #region Methods
-
-
-        public void AddReservation()
-        {
-            _reservation.ShowId = SelectedShow.Id;
-            _db.Add(_reservation);
-        }
-
         public override void Init(IDbManager db)
         {
             _db = db;
@@ -231,7 +336,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToShortDateString();
+            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
         }
         private void ApplyDateFilter(DateTime dateToSet)
         {
@@ -249,7 +354,7 @@ namespace Cinema.ViewModels
                     return false;
                 };
             }
-            ShowDateFilter = currentDate.ToShortDateString();
+            ShowDateFilter = currentDate.ToString("dd/MM/yyyy");
         }
         private void ApplyTitleFilter()
         {

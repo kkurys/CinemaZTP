@@ -1,5 +1,8 @@
 ﻿using Cinema.Models;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Cinema.Views
 {
@@ -8,13 +11,16 @@ namespace Cinema.Views
     /// </summary>
     public partial class HallWindow : Window
     {
-        public HallWindow()
+        public List<string> reservedSeats;
+
+        public HallWindow(Show show)
         {
             InitializeComponent();
+            reservedSeats = new List<string>();
+            PrepareHall(show);
         }
         private void SeatClick(object sender, RoutedEventArgs e)
         {
-            /*
             Button CurrentSeat = (Button)sender;
 
             if (CurrentSeat.Background == Brushes.DeepSkyBlue)   // odznaczanie
@@ -29,25 +35,28 @@ namespace Cinema.Views
                 reservedSeats.Add(CurrentSeat.Content.ToString());
             }
 
-        //    reservedSeats.Sort(); */
+            reservedSeats.Sort();
         }
         private void PrepareHall(Show show)
         {
-            /*
             Button btn;
-            foreach (Reservation reservation in show.Reservations)
+            foreach (Reservation reservation in show.Reservation)
             {
-                foreach (string seat in reservation.Seats)
+                if (reservation.Seats != null)
                 {
-                    btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
-                    btn.IsEnabled = false;
+                    string[] seatsTaken = reservation.Seats.Split(';');
+                    foreach (string seat in seatsTaken)
+                    {
+                        btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
+                        btn.IsEnabled = false;
+                    }
                 }
             }
             foreach (string seat in reservedSeats)
             {
                 btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
                 btn.SetValue(BackgroundProperty, Brushes.DeepSkyBlue);
-            } */
+            }
         }
         private void AcceptButton(object sender, RoutedEventArgs e)
         {
