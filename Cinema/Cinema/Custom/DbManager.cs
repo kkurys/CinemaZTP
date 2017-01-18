@@ -6,15 +6,18 @@ using System.Linq;
 
 namespace Cinema.ViewModels
 {
-    public class DbManager : IDbManager
+    public class DbManager : IDbManager, IObservable
     {
-        private IObserver observer;
+        private List<IObserver> _observers;
         CinemaDbContext db = new CinemaDbContext();
 
         private static DbManager _instance;
 
-        private DbManager() { }
-        
+        private DbManager()
+        {
+            _observers = new List<IObserver>();
+        }
+
         public static DbManager GetInstance()
         {
             if (_instance == null)
@@ -52,37 +55,45 @@ namespace Cinema.ViewModels
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Added;
             db.SaveChanges();
-            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
         }
 
         public void Update(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
-            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            NotifyObservers(obj.GetType());
         }
 
         public void Delete(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
             db.SaveChanges();
-            this.NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
         }
 
-        // OBSERVER METHODES
+        // OBSERVER METHODS
         public void AddObserver(IObserver observer)
         {
-            this.observer = observer;
+            _observers.Add(observer);
         }
 
         public void RemoveObserver(IObserver observer)
         {
-            this.observer = null;
+            if (_observers.Contains(observer))
+            {
+                _observers.Remove(observer);
+            }
+
         }
 
         public void NotifyObservers(Type t)
         {
-            this.observer.Update(t);
+            foreach (var obs in _observers)
+            {
+                obs.Update(t);
+            }
+
         }
     }
 }

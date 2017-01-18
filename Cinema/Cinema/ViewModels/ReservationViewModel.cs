@@ -10,7 +10,7 @@ namespace Cinema.ViewModels
         #region observer
         public void Update(Type t)
         {
-            _reservation = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
+      //      _reservation = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
         }
         #endregion
     }

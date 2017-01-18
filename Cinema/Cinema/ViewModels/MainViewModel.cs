@@ -3,21 +3,15 @@ using Cinema.Interfaces;
 using Cinema.Models;
 using Cinema.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
-    class MainViewModel : BaseViewModel, IMainViewModel
+    class MainViewModel : BaseViewModel, IMainViewModel, IObserver
     {
         #region Fields
         private IDbManager _db;
@@ -58,15 +52,39 @@ namespace Cinema.ViewModels
         #region Properties
         public ObservableCollection<Reservation> Reservations
         {
-            get { return _reservations; }
+            get
+            {
+                return _reservations;
+            }
+            set
+            {
+                _reservations = value;
+                OnPropertyChanged("Reservations");
+            }
         }
         public ObservableCollection<Show> Shows
         {
-            get { return _shows; }
+            get
+            {
+                return _shows;
+            }
+            set
+            {
+                _shows = value;
+                OnPropertyChanged("Shows");
+            }
         }
         public ObservableCollection<Movie> Movies
         {
-            get { return _movies; }
+            get
+            {
+                return _movies;
+            }
+            set
+            {
+                _movies = value;
+                OnPropertyChanged("Movies");
+            }
         }
         public Reservation Reservation
         {
@@ -191,7 +209,7 @@ namespace Cinema.ViewModels
             _reservation.ShowId = SelectedShow.Id;
             _db.Add(_reservation);
         }
-        
+
         public override void Init(IDbManager db)
         {
             _db = db;
@@ -260,6 +278,18 @@ namespace Cinema.ViewModels
                     }
                 }
             };
+        }
+
+        #endregion
+
+        #region observer 
+        public void Update(Type t)
+        {
+            if (t == typeof(Movie))
+            {
+                _movies = null;
+                _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+            }
         }
         #endregion
     }

@@ -13,10 +13,14 @@ namespace Cinema.Views
     public partial class MainWindow : Window
     {
         CultureInfo cultureInfo = new CultureInfo("pl-PL");
+        MainViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            _viewModel = new MainViewModel(DbManager.GetInstance());
+            DbManager.GetInstance().AddObserver(_viewModel);
             MainGrid.DataContext = new MainViewModel(DbManager.GetInstance());
         }
 

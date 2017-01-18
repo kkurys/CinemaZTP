@@ -3,10 +3,8 @@ using Cinema.Models;
 using Cinema.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Cinema.Custom.Commands
 {
@@ -19,6 +17,7 @@ namespace Cinema.Custom.Commands
         #region constructors
         public DeleteOnTimeCommand()
         {
+            commands = new List<ICommand>();
             this.db = DbManager.GetInstance();
             Thread thread = new Thread(new ThreadStart(this.ThreadFunction));
             thread.Start();
