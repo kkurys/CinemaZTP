@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:Cinema.converters"
         xmlns:validators="clr-namespace:Cinema.validators"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="900">
+        Title="Kino" Height="500" Width="900">
     <Window.Resources>
         <converters:BoolToOppositeBoolConverter x:Key="BoolOppositeConverter" />
         <converters:ListToStringConverter x:Key="ListToStringConverter" />

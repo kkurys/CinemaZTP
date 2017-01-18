@@ -67,6 +67,7 @@ namespace Cinema.ViewModels
 
         public void Delete(object obj)
         {
+            if (db.Entry(obj) == null) return;
             db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
             if (db.SaveChanges() > 0)
             {

@@ -22,6 +22,10 @@ namespace Cinema.Models
                 return PremiereDate == null ? "" : PremiereDate.Value.ToString("dd/MM/yyyy");
             }
         }
+        public override string ToString()
+        {
+            return Title;
+        }
 
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cinema.Interfaces;
+﻿using Cinema.Custom.Commands;
+using Cinema.Interfaces;
 using Cinema.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Cinema.ViewModels
@@ -48,12 +51,15 @@ namespace Cinema.ViewModels
                 return _halls;
             }
         }
-        public Action<object, RoutedEventArgs> Action;
+        public Action<object, RoutedEventArgs> GenerateTable;
+        public Action Close;
         public int ActiveMovie { get; set; }
         public int ActiveHall { get; set; }
         public ICommand AddShowCommand { get; set; }
+        public ICommand RemoveShowCommand { get; set; }
         public ICommand PrevWeekCommand { get; set; }
         public ICommand NextWeekCommand { get; set; }
+
         public string DateFrom
         {
             get
@@ -96,6 +102,11 @@ namespace Cinema.ViewModels
             {
                 return _currentDate;
             }
+            set
+            {
+                _currentDate = value;
+                OnPropertyChanged("CurrentDate");
+            }
         }
         #endregion
         #region ctors
@@ -106,19 +117,21 @@ namespace Cinema.ViewModels
             _showsToAdd = new ObservableCollection<Show>();
             _showsToRemove = new List<Show>();
 
-            //   AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
-            //   PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
-            //   NextWeekCommand = new RelayCommand(NextWeek_Executed);
+            CurrentDate = DateTime.Now;
+
+            AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
+            RemoveShowCommand = new RelayCommand(RemoveShow_Executed);
+            PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
+            NextWeekCommand = new RelayCommand(NextWeek_Executed);
+
+            GetView(_showsToAdd).GroupDescriptions.Add(new PropertyGroupDescription("Title"));
+            GetView(_showsToAdd).SortDescriptions.Add(new SortDescription("ShowDate", ListSortDirection.Ascending));
         }
         #endregion
 
         #region methods
         public void Filter(params object[] parameters)
         {
-            if (!(parameters[2] is DateTime))
-            {
-                return;
-            }
             var movie = parameters[0] as Movie;
             var hall = parameters[1] as string;
             if (movie != null && hall != null)
@@ -193,6 +206,7 @@ namespace Cinema.ViewModels
             {
                 _db.Add(s);
             }
+            Close();
         }
         #endregion
         #region commands
@@ -210,12 +224,25 @@ namespace Cinema.ViewModels
             }
 
             Show show = new Show();
-            show.Movie = Movies[ActiveMovie];
+            show.Movie = Movies[ActiveMovie - 1];
+            show.MovieId = show.Movie.Id;
             show.StartTime = ts;
+            show.EndTime = ts.Add(new TimeSpan(0, show.Movie.Length, 0));
             show.ShowDate = _currentDate.AddDays(day);
+
             show.Hall = int.Parse(_halls[ActiveHall]);
             ShowsToAdd.Add(show);
-            Action.Invoke(null, null);
+            GenerateTable(null, null);
+        }
+        public void RemoveShow_Executed(object sender)
+        {
+            Show s = sender as Show;
+            TimeSpan diff = s.ShowDate.Value - _currentDate;
+            int day = diff.Days;
+
+            _showsToRemove.Add(s);
+            ShowsToAdd.Remove(s);
+            GenerateTable(null, null);
         }
         public bool AddShow_CanExecute(object sender)
         {
@@ -224,9 +251,9 @@ namespace Cinema.ViewModels
                 return false;
             }
 
-            Movie mov = _movies[ActiveMovie];
+            Movie mov = _movies[ActiveMovie - 1];
             Button btn = sender as Button;
-
+            if (btn == null) return false;
             int days = Grid.GetColumn(btn);
             string hall = Halls[ActiveHall];
 
@@ -249,7 +276,7 @@ namespace Cinema.ViewModels
                 CurrentWeek = new Week(_currentDate);
                 Filter();
                 _currentWeekNumber++;
-                Action.Invoke(null, null);
+                GenerateTable(null, null);
             }
         }
         public void PrevWeek_Executed(object sender)
@@ -266,7 +293,7 @@ namespace Cinema.ViewModels
             CurrentWeek = new Week(_currentDate);
             Filter();
             _currentWeekNumber--;
-            Action.Invoke(null, null);
+            GenerateTable(null, null);
         }
 
         public bool PrevWeek_CanExecute(object sender)
@@ -285,7 +312,27 @@ namespace Cinema.ViewModels
         #region observer
         public void Update(Type t)
         {
-            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+            if (t == typeof(Movie))
+            {
+                var _actualMovies = _db.GetObjects<Movie>();
+                Movies.Clear();
+
+                foreach (var movie in _actualMovies)
+                {
+                    Movies.Add(movie);
+                }
+            }
+            else if (t == typeof(Show))
+            {
+                var _actualShows = _db.GetObjects<Show>();
+                ShowsToAdd.Clear();
+
+                foreach (var show in _actualShows)
+                {
+                    ShowsToAdd.Add(show);
+                }
+            }
+
         }
         #endregion
     }

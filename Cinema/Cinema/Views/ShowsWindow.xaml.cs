@@ -17,8 +17,8 @@ namespace Cinema.Views
         {
             InitializeComponent();
             _viewModel = viewModel;
-            _viewModel.Action = GenerateTable;
-
+            _viewModel.GenerateTable = GenerateTable;
+            _viewModel.Close = Close;
             gridMain.DataContext = _viewModel;
 
         }
