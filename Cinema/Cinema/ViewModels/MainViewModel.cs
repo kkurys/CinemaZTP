@@ -3,8 +3,10 @@ using Cinema.Interfaces;
 using Cinema.Models;
 using Cinema.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -53,6 +55,7 @@ namespace Cinema.ViewModels
             AddReservationCommand = new RelayCommand(AddReservation_Executed, AddReservation_CanExecute);
             HallCommand = new RelayCommand(Hall_Executed, Hall_CanExecute);
             DeleteReservationCommand = new RelayCommand(DeleteReservation_Executed, DeleteReservation_CanExecute);
+            EditHallCommand = new RelayCommand(EditHall_Executed);
 
             Init(db);
             ApplyDateFilter();
@@ -210,6 +213,7 @@ namespace Cinema.ViewModels
         public ICommand AddReservationCommand { get; set; }
         public ICommand HallCommand { get; set; }
         public ICommand DeleteReservationCommand { get; set; }
+        public ICommand EditHallCommand { get; set; }
 
         #endregion
 
@@ -300,6 +304,17 @@ namespace Cinema.ViewModels
             if (hall.ShowDialog() == true)
             {
                 ReservationSeats = String.Join(";", hall.reservedSeats.ToArray());
+            }
+        }
+        private void EditHall_Executed(object obj)
+        {
+            HallWindow hall = new HallWindow(SelectedReservation.Show);
+            List<string> result = SelectedReservation.Seats.Split(';').ToList();
+            hall.reservedSeats = result;
+            hall.RecheckSeats();
+            if (hall.ShowDialog() == true)
+            {
+                SelectedReservation.Seats = String.Join(";", hall.reservedSeats.ToArray());
             }
         }
         private bool DeleteReservation_CanExecute(object obj)

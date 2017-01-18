@@ -52,9 +52,14 @@ namespace Cinema.Views
                     }
                 }
             }
+        }
+        public void RecheckSeats()
+        {
+            Button btn;
             foreach (string seat in reservedSeats)
             {
                 btn = LogicalTreeHelper.FindLogicalNode(SeatsGrid, seat) as Button;
+                btn.IsEnabled = true;
                 btn.SetValue(BackgroundProperty, Brushes.DeepSkyBlue);
             }
         }
