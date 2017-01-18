@@ -68,8 +68,11 @@ namespace Cinema.ViewModels
         public void Delete(object obj)
         {
             db.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
-            db.SaveChanges();
-            NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            if (db.SaveChanges() > 0)
+            {
+                NotifyObservers(obj.GetType()); // OBSERVER NOTIFICATION
+            }
+
         }
 
         // OBSERVER METHODS

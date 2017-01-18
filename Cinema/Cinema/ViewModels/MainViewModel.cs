@@ -38,9 +38,6 @@ namespace Cinema.ViewModels
             ShowDateFilter = DateTime.Now.ToShortDateString();
 
             _reservation = new Reservation();
-            _shows = new ObservableCollection<Show>();
-            _movies = new ObservableCollection<Movie>();
-            _reservations = new ObservableCollection<Reservation>();
 
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
             EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
@@ -51,15 +48,16 @@ namespace Cinema.ViewModels
 
             Init(db);
             LoadCollections();
-
-            ApplyDateFilter();
         }
         #endregion
 
         #region Properties
         public ObservableCollection<Reservation> Reservations
         {
-            get { return _reservations; }
+            get
+            {
+                return _reservations;
+            }
             set
             {
                 _reservations = value;
@@ -68,7 +66,10 @@ namespace Cinema.ViewModels
         }
         public ObservableCollection<Show> Shows
         {
-            get { return _shows; }
+            get
+            {
+                return _shows;
+            }
             set
             {
                 _shows = value;
@@ -77,7 +78,10 @@ namespace Cinema.ViewModels
         }
         public ObservableCollection<Movie> Movies
         {
-            get { return _movies; }
+            get
+            {
+                return _movies;
+            }
             set
             {
                 _movies = value;
@@ -203,12 +207,7 @@ namespace Cinema.ViewModels
         #endregion
 
         #region Methods
-        public void LoadCollections()
-        {
-            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
-            _shows = new ObservableCollection<Show>(_db.GetObjects<Show>());
-            _reservations = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
-        }
+
 
         public void AddReservation()
         {
@@ -219,6 +218,9 @@ namespace Cinema.ViewModels
         public override void Init(IDbManager db)
         {
             _db = db;
+            _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+            _shows = new ObservableCollection<Show>(_db.GetObjects<Show>());
+            _reservations = new ObservableCollection<Reservation>(_db.GetObjects<Reservation>());
         }
         #endregion
 
@@ -316,8 +318,33 @@ namespace Cinema.ViewModels
         {
             if (t == typeof(Movie))
             {
-                _movies = null;
-                _movies = new ObservableCollection<Movie>(_db.GetObjects<Movie>());
+                var _actualMovies = _db.GetObjects<Movie>();
+                Movies.Clear();
+
+                foreach (var movie in _actualMovies)
+                {
+                    Movies.Add(movie);
+                }
+            }
+            else if (t == typeof(Show))
+            {
+                var _actualShows = _db.GetObjects<Show>();
+                Shows.Clear();
+
+                foreach (var show in _actualShows)
+                {
+                    Shows.Add(show);
+                }
+            }
+            else if (t == typeof(Reservation))
+            {
+                var _actualReservations = _db.GetObjects<Reservation>();
+                Reservations.Clear();
+
+                foreach (var reservation in _actualReservations)
+                {
+                    Reservations.Add(reservation);
+                }
             }
         }
         #endregion

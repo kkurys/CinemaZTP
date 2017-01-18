@@ -251,7 +251,7 @@
                                     <TextBlock Name="TBWriter" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
                                                Text="{Binding Writer}"></TextBlock>
                                     <TextBlock Name="TBPremiereDate" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
-                                               Text="{Binding PremiereDateOnly}"></TextBlock>
+                                               Text="{Binding ShortDate}"></TextBlock>
                                     <TextBlock Name="TBGenre" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
                                                Text="{Binding Genre}"></TextBlock>
                                     <TextBlock Name="TBProduction" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" Padding="3, 6" Style="{StaticResource bigText}"
