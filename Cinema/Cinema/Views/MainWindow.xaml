@@ -335,7 +335,7 @@
                                 <TextBlock Text="Nowa rezerwacja" FontSize="15"/>
                             </GroupBox.Header>
                             <StackPanel>
-                                <Grid Name="NewReservationGrid" DataContext="{Binding Reservation}">
+                                <Grid Name="NewReservationGrid" DataContext="{Binding ElementName=MainGrid, Path=DataContext}" Validation.Error="reservationValidationError" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"></RowDefinition>
                                         <RowDefinition Height="auto"></RowDefinition>
@@ -350,7 +350,7 @@
                                     <Label Grid.Row="0" Content="Imię"/>
                                     <TextBox Grid.Row="1" x:Name="TBName" Padding="3" TextWrapping="Wrap">
                                         <TextBox.Text>
-                                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                            <Binding Path="ReservationName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                                 <Binding.ValidationRules>
                                                     <validators:ValidNameRule></validators:ValidNameRule>
                                                 </Binding.ValidationRules>
@@ -361,7 +361,7 @@
                                     <Label Grid.Row="2" Content="Nazwisko"/>
                                     <TextBox Grid.Row="3" x:Name="TBSurname" Padding="3" TextWrapping="Wrap">
                                         <TextBox.Text>
-                                            <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                            <Binding Path="ReservationSurname" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                                 <Binding.ValidationRules>
                                                     <validators:ValidNameRule></validators:ValidNameRule>
                                                 </Binding.ValidationRules>
@@ -375,7 +375,7 @@
                                         </GroupBox.Header>
                                         <StackPanel Orientation="Horizontal">
                                             <RadioButton Margin="0, 0, 20, 0" x:Name="EnabledRadioButton" Content="Sprzedaż" GroupName="Enabler"
-                                                         IsChecked="{Binding Path=WasPaid}"/>
+                                                         IsChecked="{Binding Path=ReservationWasPaid}"/>
                                             <RadioButton x:Name="DisabledRadioButton" Content="Rezerwacja" GroupName="Enabler" />
                                         </StackPanel>
                                     </GroupBox>
@@ -386,9 +386,9 @@
                                         </GroupBox.Header>
                                         <StackPanel Orientation="Horizontal">
                                             <RadioButton Margin="0, 0, 20, 0" Name="RBTicketNormalny" Content="Normalny"
-                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=Standard}"/>
+                                                     IsChecked="{Binding Path=ReservationTicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=Standard}"/>
                                             <RadioButton Name="RBTicketUlgowy" Content="Ulgowy"
-                                                     IsChecked="{Binding Path=TicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=HalfPrices}"/>
+                                                     IsChecked="{Binding Path=ReservationTicketType, Converter={StaticResource TicketTypeConverter}, ConverterParameter=HalfPrices}"/>
                                         </StackPanel>
                                     </GroupBox>
 
@@ -399,9 +399,11 @@
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Name="TBPlace" Margin="5 0" Padding="3" TextWrapping="Wrap" 
-                                                   Text="{Binding Path=Seats, Converter={StaticResource ListToStringConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Text="{Binding Path=ReservationSeats}" 
                                                    Style="{StaticResource blackTextBlock}"/>
-                                        <Button Grid.Column="1" Name="BTShowAudience" Margin="5 0" Padding="15, 3" Content="Podgląd sali" Height="26" VerticalAlignment="Top"></Button>
+                                        <!-- Converter={StaticResource ListToStringConverter}, UpdateSourceTrigger=PropertyChanged -->
+                                        <Button Grid.Column="1" Margin="5 0" Padding="15, 3" Content="Podgląd sali" Height="26" VerticalAlignment="Top"
+                                                Command="{Binding Path=HallCommand}" CommandParameter="{Binding}"></Button>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -415,7 +417,8 @@
                             <!--
                             <Button Content="Anuluj" Margin="5" Padding="15, 3"></Button>
                             -->
-                            <Button Content="Dodaj" Margin="5" Padding="15, 3" ToolTip="Utwórz nową rezerwację"></Button>
+                            <Button Content="Dodaj" Margin="5" Padding="15, 3" ToolTip="Utwórz nową rezerwację"
+                                    Command="{Binding AddReservationCommand}" CommandParameter="{Binding}"></Button>
                             <Button Content="Zamknij" Margin="5" Padding="15, 3" Click="Close"></Button>
                         </StackPanel>
                     </DockPanel>
@@ -530,7 +533,8 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Name="TBReservedPlace" Margin="5 0" Padding="3" TextWrapping="Wrap" Text="{Binding Path=Seats, Converter={StaticResource ListToStringConverter}}" Style="{StaticResource blackTextBlock}"/>
+                                    <TextBlock Name="TBReservedPlace" Margin="5 0" Padding="3" TextWrapping="Wrap" Text="{Binding Path=Seats}" Style="{StaticResource blackTextBlock}"/>
+                                    <!--, Converter={StaticResource ListToStringConverter}-->
                                     <Button Grid.Column="1" Name="BTEditSeats" Margin="5 0" Padding="15, 3" Content="Podgląd sali" Height="26" VerticalAlignment="Top"></Button>
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Grid.Row="8" Margin="0 5">

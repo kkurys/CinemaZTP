@@ -3,7 +3,7 @@
     public enum Ticket
     {
         Standard,
-        HalfPrice
+        HalfPrices
     };
 
     public class Reservation
