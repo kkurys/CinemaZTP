@@ -1,4 +1,5 @@
-﻿using Cinema.ViewModels;
+﻿using Cinema.Models;
+using Cinema.ViewModels;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,14 +63,37 @@ namespace Cinema.Views
         }
         #endregion
         #region groups&sorts methods
-        private ListCollectionView MoviesView
+        private void ReservFilterChanged(object sender, TextChangedEventArgs e)
         {
-            get
+            _viewModel.GetView(_viewModel.Reservations).Filter = delegate (object item)
             {
-                //        return (ListCollectionView)CollectionViewSource.GetDefaultView(db.Movies);
-                return null;
-            }
+                Reservation res = item as Reservation;
+                if (TBId.Text != "")
+                {
+                    int id;
+                    if (int.TryParse(TBId.Text, out id))
+                    {
+                        if (cultureInfo.CompareInfo.IndexOf(res.Name, TBResName.Text, CompareOptions.IgnoreCase) >= 0 && cultureInfo.CompareInfo.IndexOf(res.Surname, TBResSurname.Text, CompareOptions.IgnoreCase) >= 0 && res.Id == id)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                else
+                {
+                    if (cultureInfo.CompareInfo.IndexOf(res.Name, TBResName.Text, CompareOptions.IgnoreCase) >= 0 && cultureInfo.CompareInfo.IndexOf(res.Surname, TBResSurname.Text, CompareOptions.IgnoreCase) >= 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            };
         }
+
         private void SortNone(object sender, RoutedEventArgs e)
         {
             /*

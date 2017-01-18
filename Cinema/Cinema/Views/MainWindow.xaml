@@ -456,11 +456,11 @@
                                         <ColumnDefinition Width="*" MaxWidth="55"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Imię:"></Label>
-                                    <TextBox Name="TBResName" Grid.Column="1" Padding="3" Text="{Binding NameFilter}"></TextBox>
+                                    <TextBox Name="TBResName" Grid.Column="1" Padding="3" Text="{Binding NameFilter}" TextChanged="ReservFilterChanged"></TextBox>
                                     <Label Grid.Column="2" Content="Nazwisko:"></Label>
-                                    <TextBox Name="TBResSurname" Grid.Column="3" Padding="3" Text="{Binding SurnameFilter}"></TextBox>
+                                    <TextBox Name="TBResSurname" Grid.Column="3" Padding="3" Text="{Binding SurnameFilter}" TextChanged="ReservFilterChanged"></TextBox>
                                     <Label Grid.Column="4" Content="Nr rezerwacji:"></Label>
-                                    <TextBox Name="TBId" Grid.Column="5" Padding="3" Text="{Binding IdFilter}"></TextBox>
+                                    <TextBox Name="TBId" Grid.Column="5" Padding="3" Text="{Binding IdFilter}" TextChanged="ReservFilterChanged"></TextBox>
                                 </Grid>
                                 <ListBox Grid.Row="1" Name="LBReservedList" Margin="5"
                                          SelectedItem="{Binding SelectedReservation}"
