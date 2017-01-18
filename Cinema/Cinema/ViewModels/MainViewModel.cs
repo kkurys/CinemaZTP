@@ -1,6 +1,7 @@
 ﻿using Cinema.Custom.Commands;
 using Cinema.Interfaces;
 using Cinema.Models;
+using Cinema.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
@@ -44,7 +46,8 @@ namespace Cinema.ViewModels
             _movies = new ObservableCollection<Movie>();
             _reservations = new ObservableCollection<Reservation>();
 
-            DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, DeleteMovie_CanExecute);
+            DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
+            EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
 
             Init(db);
             LoadCollections();
@@ -125,7 +128,7 @@ namespace Cinema.ViewModels
         #endregion
 
         #region Commands
-        private bool DeleteMovie_CanExecute(object sender)
+        private bool Movie_CanExecute(object sender)
         {
             if (SelectedMovie != null)
             {
@@ -141,6 +144,12 @@ namespace Cinema.ViewModels
         {
             _db.Delete(SelectedMovie);
             LoadCollections();
+        }
+
+        private void EditMovie_Executed(object obj)
+        {
+            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance(), SelectedMovie));
+            newMovie.Show();
         }
         #endregion
 

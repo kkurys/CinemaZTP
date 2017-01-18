@@ -269,7 +269,7 @@
                     <DockPanel Grid.Row="1">
                         <Button Content="Dodaj film" Margin="5" Padding="10, 3" Name="BTAddMovie" Click="AddMovie" ></Button>
                         <Button Content="Usuń film" Margin="5" Padding="10, 3" Name="BTRemoveMovie" Command="{Binding DeleteMovieCommand}" CommandParameter="{Binding}"></Button>
-                        <Button Content="Edytuj film" Margin="5" Padding="10, 3" Name="BTEditMovie"  CommandParameter="{Binding ElementName=LBRepertuar}"/>
+                        <Button Content="Edytuj film" Margin="5" Padding="10, 3" Name="BTEditMovie"  Command="{Binding EditMovieCommand}" CommandParameter="{Binding}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Wyświetl seanse" Margin="5" Padding="15, 3"  ToolTip="Wyświetl seanse dla wybranego filmu"></Button>
                             <Button Content="Zamknij" Margin="5" Padding="15, 3" Click="Close"></Button>
