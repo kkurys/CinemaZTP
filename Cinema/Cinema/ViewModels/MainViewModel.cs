@@ -17,8 +17,7 @@ namespace Cinema.ViewModels
         private string _dateFormat = "yyyy/MM/dd";
 
         CultureInfo cultureInfo;
-
-        private Reservation _reservation;
+        
         private string _reservationSeats;
         private string _reservationName;
         private string _reservationSurname;
@@ -27,6 +26,7 @@ namespace Cinema.ViewModels
 
         private Movie _selectedMovie;
         private Show _selectedShow;
+        private Reservation _selectedReservation;
         private string _idFilter;
         private string _nameFilter;
         private string _surnameFilter;
@@ -44,8 +44,6 @@ namespace Cinema.ViewModels
             cultureInfo = new CultureInfo("pl-PL");
             ShowDateFilter = DateTime.Now.ToString(_dateFormat);
 
-            _reservation = new Reservation();
-
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
             EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
             AddMovieCommand = new RelayCommand(AddMovie_Executed);
@@ -54,6 +52,7 @@ namespace Cinema.ViewModels
             ShowManageCommand = new RelayCommand(ShowManage_Executed);
             AddReservationCommand = new RelayCommand(AddReservation_Executed, AddReservation_CanExecute);
             HallCommand = new RelayCommand(Hall_Executed, Hall_CanExecute);
+            DeleteReservationCommand = new RelayCommand(DeleteReservation_Executed, DeleteReservation_CanExecute);
 
             Init(db);
             ApplyDateFilter();
@@ -82,17 +81,6 @@ namespace Cinema.ViewModels
             get
             {
                 return _movies;
-            }
-        }
-        public Reservation Reservation
-        {
-            get { return _reservation; }
-            set
-            {
-                _reservation.Name = value.Name;
-                _reservation.Surname = value.Surname;
-                _reservation.TicketType = value.TicketType;
-                OnPropertyChanged("Reservation");
             }
         }
         public string ReservationSeats
@@ -158,6 +146,15 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("SelectedShow");
             }
         }
+        public Reservation SelectedReservation
+        {
+            get { return _selectedReservation; }
+            set
+            {
+                _selectedReservation = value;
+                OnPropertyChanged("SelectedReservation");
+            }
+        }
         public string IdFilter
         {
             get { return _idFilter; }
@@ -212,6 +209,7 @@ namespace Cinema.ViewModels
         public ICommand ShowManageCommand { get; set; }
         public ICommand AddReservationCommand { get; set; }
         public ICommand HallCommand { get; set; }
+        public ICommand DeleteReservationCommand { get; set; }
 
         #endregion
 
@@ -271,14 +269,14 @@ namespace Cinema.ViewModels
         }
         private void AddReservation_Executed(object obj)
         {
-            _reservation.ShowId = SelectedShow.Id;
-            _reservation.Seats = ReservationSeats;
-            _reservation.Name = ReservationName;
-            _reservation.Surname = ReservationSurname;
-            _reservation.WasPaid = ReservationWasPaid;
-            _reservation.TicketType = ReservationTicketType;
-            _db.Add(_reservation);
-            Reservation = new Reservation();
+            Reservation newReservation = new Reservation();
+            newReservation.ShowId = SelectedShow.Id;
+            newReservation.Seats = ReservationSeats;
+            newReservation.Name = ReservationName;
+            newReservation.Surname = ReservationSurname;
+            newReservation.WasPaid = ReservationWasPaid;
+            newReservation.TicketType = ReservationTicketType;
+            _db.Add(newReservation);
             ReservationSeats = "";
             ReservationName = "";
             ReservationSurname = "";
@@ -304,9 +302,29 @@ namespace Cinema.ViewModels
                 ReservationSeats = String.Join(";", hall.reservedSeats.ToArray());
             }
         }
+        private bool DeleteReservation_CanExecute(object obj)
+        {
+            if (SelectedReservation != null && SelectedReservation.WasPaid == false)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private void DeleteReservation_Executed(object obj)
+        {
+            _db.Delete(SelectedReservation);
+        }
         #endregion
 
         #region Methods
+        public void SaveReservation()
+        {
+            _db.Update(_selectedReservation);
+        }
+
         public override void Init(IDbManager db)
         {
             _db = db;

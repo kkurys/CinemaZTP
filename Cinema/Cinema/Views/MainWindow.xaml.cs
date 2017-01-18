@@ -25,26 +25,6 @@ namespace Cinema.Views
         }
 
         #region methods
-        private void ReservationSelected(object sender, SelectionChangedEventArgs e)
-        {
-            /*         if (LBReservedList.SelectedIndex > -1 && CBPaid.IsChecked == false)
-                     {
-                         GBReservationDetails.IsEnabled = true;
-                     }
-                     else
-                     {
-                         GBReservationDetails.IsEnabled = false;
-                     }
-                     */
-            //if (GBReservationDetails.IsEnabled == false && CBPaid.IsChecked == false)
-            //{
-            //    GBReservationDetails.IsEnabled = true;
-            //}
-            //else
-            //{
-            //    GBReservationDetails.IsEnabled = false;
-            //}
-        }
         private void WasPaid(object sender, RoutedEventArgs e)
         {
             if (CBPaid != null && CBPaid.IsChecked == true)
@@ -64,36 +44,6 @@ namespace Cinema.Views
             MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()) { Close = Close });
             newMovie.Show();
         }
-        /*
-        public int FindAvailableId()
-        {
-            int id = 1;
-            bool sw = true;
-            if (db.Reservations == null || db.Reservations.Count == 0)
-            {
-                sw = false;
-            }
-            while (sw)
-            {
-                foreach (Reservation r in db.Reservations)
-                {
-                    if (r.Id == id)
-                    {
-                        id++;
-                        sw = true;
-                        break;
-                    }
-                    sw = false;
-                }
-            }
-            return id;
-        } */
-        private void OpenShowsWindow(object sender, RoutedEventArgs e)
-        {
-            //    ShowsWindow shows = new ShowsWindow(db);
-
-            //shows.Show();
-        }
         private void DisplayShowsForToday(object sender, RoutedEventArgs e)
         {
             /*
@@ -104,29 +54,6 @@ namespace Cinema.Views
             ApplyDateFilter();
             GroupHours();
             TBGroupHeader.Text = "Wszystkie seanse"; */
-        }
-        private void KeyShortcuts(object sender, KeyEventArgs e)
-        {
-            /*
-            if (TCMainWindow.SelectedIndex == 1)
-            {
-                if (e.Key == Key.Left)
-                {
-                    if (BTPrev.IsEnabled == true)
-                    {
-                        //PrevWeek_Executed(null, null);
-                    }
-                    e.Handled = true;
-                }
-                if (e.Key == Key.Right)
-                {
-                    if (BTNext.IsEnabled == true)
-                    {
-                      //  NextWeek_Executed(null, null);
-                    }
-                    e.Handled = true;
-                }
-            } */
         }
         private void EditMovie(object sender, MouseButtonEventArgs e)
         {
@@ -199,89 +126,6 @@ namespace Cinema.Views
             //      ShowsView.GroupDescriptions.Add(new PropertyGroupDescription("StartTime", showsGrouper));
         }
         #endregion
-        #region filters
-        public ListCollectionView ShowsView
-        {
-            get
-            {
-                //      return (ListCollectionView)CollectionViewSource.GetDefaultView(db.Shows);
-                return null;
-            }
-        }
-        private ListCollectionView ReservationsView
-        {
-            get
-            {
-                //       return (ListCollectionView)CollectionViewSource.GetDefaultView(db.Reservations);
-                return null;
-            }
-        }
-        private void RemoveFilter()
-        {
-            //    ShowsView.Filter = null;
-        }
-        private void ApplyDateFilter()
-        {
-            /*     var currentDate = DateTime.Today;
-                 ShowsView.Filter = delegate (object item)
-                 {
-                     Show show = item as Show;
-                     if (show.ShowDate == currentDate)
-                     {
-                         return true;
-                     }
-                     return false;
-                 }; */
-        }
-        private void ApplyTitleFilter()
-        {
-            /*
-            ShowsView.Filter = delegate (object item)
-            {
-                Show show = item as Show;
-                if (show.Movie.Title == (LBRepertuar.SelectedItem as Movie).Title)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            };
-            */
-        }
-        private void ReservFilterChanged(object sender, TextChangedEventArgs e)
-        {
-            /*
-            ReservationsView.Filter = delegate (object item)
-            {
-                Reservation res = item as Reservation;
-                if (TBId.Text != "")
-                {
-                    int id;
-                    if (int.TryParse(TBId.Text, out id))
-                    {
-                        if (cultureInfo.CompareInfo.IndexOf(res.Name, TBResName.Text, CompareOptions.IgnoreCase) >= 0 && cultureInfo.CompareInfo.IndexOf(res.Surname, TBResSurname.Text, CompareOptions.IgnoreCase) >= 0 && res.Id == id)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                else
-                {
-                    if (cultureInfo.CompareInfo.IndexOf(res.Name, TBResName.Text, CompareOptions.IgnoreCase) >= 0 && cultureInfo.CompareInfo.IndexOf(res.Surname, TBResSurname.Text, CompareOptions.IgnoreCase) >= 0)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }; */
-        }
-        #endregion
 
         private bool HasErrors(DependencyObject gridInfo)
         {
@@ -310,6 +154,11 @@ namespace Cinema.Views
             {
                 _viewModel.ReservationErrors = false;
             }
+        }
+
+        private void CBPaid_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SaveReservation();
         }
     }
 }

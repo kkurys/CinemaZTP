@@ -56,19 +56,16 @@ namespace Cinema.ViewModels
             if (obj is Movie)
             {
                 var objToAdd = obj as Movie;
-                if (db.Movies.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
                 db.Movies.Add(objToAdd);
             }
             else if (obj is Show)
             {
                 var objToAdd = obj as Show;
-                if (db.Shows.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
                 db.Shows.Add(objToAdd);
             }
             else if (obj is Reservation)
             {
                 var objToAdd = obj as Reservation;
-                if (db.Reservations.ToList().Find(x => x.Id == objToAdd.Id) == null) return;
                 db.Reservations.Add(objToAdd);
 
             }

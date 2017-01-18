@@ -456,19 +456,19 @@
                                         <ColumnDefinition Width="*" MaxWidth="55"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Imię:"></Label>
-                                    <TextBox Name="TBResName" Grid.Column="1" Padding="3" Text="{Binding NameFilter}" TextChanged="ReservFilterChanged"></TextBox>
+                                    <TextBox Name="TBResName" Grid.Column="1" Padding="3" Text="{Binding NameFilter}"></TextBox>
                                     <Label Grid.Column="2" Content="Nazwisko:"></Label>
-                                    <TextBox Name="TBResSurname" Grid.Column="3" Padding="3" Text="{Binding SurnameFilter}" TextChanged="ReservFilterChanged"></TextBox>
+                                    <TextBox Name="TBResSurname" Grid.Column="3" Padding="3" Text="{Binding SurnameFilter}"></TextBox>
                                     <Label Grid.Column="4" Content="Nr rezerwacji:"></Label>
-                                    <TextBox Name="TBId" Grid.Column="5" Padding="3" Text="{Binding IdFilter}" TextChanged="ReservFilterChanged"></TextBox>
+                                    <TextBox Name="TBId" Grid.Column="5" Padding="3" Text="{Binding IdFilter}"></TextBox>
                                 </Grid>
                                 <ListBox Grid.Row="1" Name="LBReservedList" Margin="5"
+                                         SelectedItem="{Binding SelectedReservation}"
                                          ItemsSource="{Binding Reservations}"
                                          ItemTemplate="{StaticResource ReservationDataTemplate}" 
                                          ItemContainerStyle="{StaticResource nonHighlight}"
                                          HorizontalContentAlignment="Stretch"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         SelectionChanged="ReservationSelected">
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 </ListBox>
                             </Grid>
                         </GroupBox>
@@ -525,6 +525,7 @@
                                 </GroupBox>
 
                                 <CheckBox Margin="5" Grid.Row="5" x:Name="CBPaid" Content="Zapłacono" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                          Click="CBPaid_Click"
                                           IsChecked="{Binding Path=WasPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
 
                                 <Label Grid.Row="6" Content="Miejsca"/>
@@ -547,7 +548,8 @@
 
                     <DockPanel Grid.Row="1">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Button Margin="5" Padding="15, 3" Name="button2" Content="Usuń"></Button>
+                            <Button Margin="5" Padding="15, 3" Name="button2" Content="Usuń"
+                                    Command="{Binding DeleteReservationCommand}" CommandParameter="{Binding}"></Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Drukuj bilet" Margin="5" Padding="15 3" ></Button>
