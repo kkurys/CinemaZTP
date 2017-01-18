@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinema.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace Cinema.TicketBuilder
 {
     interface ITicketBuilder
     {
-        Cinema.Models.ITicket BuildTicket(Cinema.Models.Reservation reservation);
+        Cinema.Models.ITicket BuildTicket();
+
+        void BuildIdentity();
+        void BuildReservation(Reservation reserv);
     }
 }

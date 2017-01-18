@@ -8,11 +8,13 @@ namespace Cinema.TicketBuilder
 {
     class Ticket : Cinema.Models.ITicket
     {
-        private Ticket() {}
-        public Ticket(Cinema.Models.Reservation reservation)
+        private Ticket() { }
+        public Ticket(Cinema.Models.Reservation reservation, string identity)
         {
             this.setShow(reservation.Show);
             this.setSeats(reservation.Seats);
+            this.Identity = identity;
+            this.Reservation = reservation;
             // this.setPrice(29.99);
         }
     }

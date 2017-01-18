@@ -8,6 +8,8 @@ namespace Cinema.Models
 {
     public abstract class ITicket
     {
+        private string _identity;
+        private Reservation _reservation;
         private double price;
         private string seats;
         private Cinema.Models.Show show;
@@ -19,5 +21,7 @@ namespace Cinema.Models
         public double getPrice() { return this.price; }
         public string getSeats() { return this.seats; }
         public Cinema.Models.Show getShow() { return this.show; }
+        public string Identity { get; set; }
+        public Reservation Reservation { get; set; }
     }
 }

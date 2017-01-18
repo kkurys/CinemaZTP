@@ -1,12 +1,14 @@
 ﻿using Cinema.Custom.Commands;
 using Cinema.Interfaces;
 using Cinema.Models;
+using Cinema.TicketBuilder;
 using Cinema.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -15,6 +17,7 @@ namespace Cinema.ViewModels
     class MainViewModel : BaseViewModel, IMainViewModel, IObserver
     {
         #region Fields
+        private ITicket _ticket;
         private IDbManager _db;
         private string _dateFormat = "yyyy/MM/dd";
 
@@ -24,7 +27,8 @@ namespace Cinema.ViewModels
         private string _reservationName;
         private string _reservationSurname;
         private bool _reservationWasPaid;
-        private Ticket _reservationTicketType;
+        private bool _customerPaid;
+        private Models.Ticket _reservationTicketType;
 
         private Movie _selectedMovie;
         private Show _selectedShow;
@@ -56,6 +60,8 @@ namespace Cinema.ViewModels
             HallCommand = new RelayCommand(Hall_Executed, Hall_CanExecute);
             DeleteReservationCommand = new RelayCommand(DeleteReservation_Executed, DeleteReservation_CanExecute);
             EditHallCommand = new RelayCommand(EditHall_Executed);
+            BuildTicketCommand = new RelayCommand(BuildTicket_Executed, BuildTicket_CanExecute);
+            BuildETicketCommand = new RelayCommand(BuildETicket_Executed, BuildETicket_CanExecute);
 
             Init(db);
             ApplyDateFilter();
@@ -122,7 +128,7 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("ReservationWasPaid");
             }
         }
-        public Ticket ReservationTicketType
+        public Models.Ticket ReservationTicketType
         {
             get { return _reservationTicketType; }
             set
@@ -204,6 +210,15 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("ReservationErrors");
             }
         }
+        public bool CustomerPaid
+        {
+            get { return _customerPaid; }
+            set
+            {
+                _customerPaid = value;
+                OnPropertyChanged("CustomerPaid");
+            }
+        }
         public ICommand DeleteMovieCommand { get; set; }
         public ICommand EditMovieCommand { get; set; }
         public ICommand AddMovieCommand { get; set; }
@@ -214,6 +229,8 @@ namespace Cinema.ViewModels
         public ICommand HallCommand { get; set; }
         public ICommand DeleteReservationCommand { get; set; }
         public ICommand EditHallCommand { get; set; }
+        public ICommand BuildTicketCommand { get; set; }
+        public ICommand BuildETicketCommand { get; set; }
 
         #endregion
 
@@ -285,7 +302,7 @@ namespace Cinema.ViewModels
             ReservationName = "";
             ReservationSurname = "";
             ReservationWasPaid = false;
-            ReservationTicketType = Ticket.Standard;
+            ReservationTicketType = Models.Ticket.Standard;
         }
         private bool Hall_CanExecute(object obj)
         {
@@ -331,6 +348,56 @@ namespace Cinema.ViewModels
         private void DeleteReservation_Executed(object obj)
         {
             _db.Delete(SelectedReservation);
+        }
+        private void BuildTicket_Executed(object obj)
+        {
+            ITicketBuilder b1 = new TicketConcreteBuilder();
+            b1.BuildReservation(SelectedReservation);
+            b1.BuildIdentity();
+            if (_ticket == null)
+            {
+                _ticket = b1.BuildTicket();
+            }
+            CustomerPaid = true;
+            SelectedReservation.WasPaid = true;
+            _db.Update(SelectedReservation);
+            MessageBox.Show(_ticket.Identity);
+        }
+        private void BuildETicket_Executed(object obj)
+        {
+            ITicketBuilder b2 = new ETicketConcreteBuilder();
+            b2.BuildReservation(SelectedReservation);
+            b2.BuildIdentity();
+            if (_ticket == null)
+            {
+                _ticket = b2.BuildTicket();
+            }
+            CustomerPaid = true;
+            SelectedReservation.WasPaid = true;
+            _db.Update(SelectedReservation);
+            MessageBox.Show(_ticket.Identity);
+        }
+        private bool BuildETicket_CanExecute(object obj)
+        {
+            if (_ticket == null || _ticket is ETicket)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool BuildTicket_CanExecute(object obj)
+        {
+            if (_ticket == null || _ticket is TicketBuilder.Ticket)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
 

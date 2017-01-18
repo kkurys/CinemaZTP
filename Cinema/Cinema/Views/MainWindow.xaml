@@ -487,6 +487,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
 
@@ -526,7 +527,7 @@
 
                                 <CheckBox Margin="5" Grid.Row="5" x:Name="CBPaid" Content="Zapłacono" HorizontalAlignment="Left" VerticalAlignment="Top"
                                           Click="CBPaid_Click"
-                                          IsChecked="{Binding Path=WasPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
+                                          IsChecked="{Binding ElementName=MainGrid, Path=DataContext.CustomerPaid}" IsEnabled="{Binding ElementName=CBPaid, Path=IsChecked, Converter={StaticResource BoolOppositeConverter}}"/>
 
                                 <Label Grid.Row="6" Content="Miejsca"/>
                                 <Grid Grid.Row="7">
@@ -542,6 +543,12 @@
                                 <StackPanel Orientation="Horizontal" Grid.Row="8" Margin="0 5">
                                     <Label Content="Numer rezerwacji: "></Label>
                                     <TextBlock Margin="3 6" Text="{Binding Path=Id}" Style="{StaticResource blackTextBlock}"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="9" Margin="0 5">
+                                    <Button Grid.Column="1" Margin="5 0" Padding="15, 3" Content="Bilet normalny" Height="26" VerticalAlignment="Top"
+                                            Command="{Binding ElementName=MainGrid, Path=DataContext.BuildTicketCommand}" CommandParameter="{Binding}"></Button>
+                                    <Button Grid.Column="1" Margin="5 0" Padding="15, 3" Content="EBilet" Height="26" VerticalAlignment="Top"
+                                            Command="{Binding ElementName=MainGrid, Path=DataContext.BuildETicketCommand}" CommandParameter="{Binding}"></Button>
                                 </StackPanel>
                             </Grid>
                         </GroupBox>
