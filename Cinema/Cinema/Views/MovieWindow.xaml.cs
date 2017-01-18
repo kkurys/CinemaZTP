@@ -19,6 +19,10 @@ namespace Cinema.Views
 
             _viewModel = viewModel;
         }
+        public void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = _viewModel;
+        }
         #region validation
         private bool HasErrors(DependencyObject gridInfo)
         {
@@ -40,15 +44,15 @@ namespace Cinema.Views
         {
             if (e.Action == ValidationErrorEventAction.Added)
             {
-                BTConfirm.IsEnabled = false;
                 _viewModel.MovieErrors = true;
             }
             else if (!HasErrors(MainGrid))
             {
-                BTConfirm.IsEnabled = true;
                 _viewModel.MovieErrors = false;
             }
         }
+        #endregion
+        #region events
         private void BTLoadPoster(object sender, RoutedEventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();

@@ -1,11 +1,11 @@
-﻿using Cinema.Custom.Commands;
-using Cinema.Interfaces;
+﻿using Cinema.Interfaces;
 using Cinema.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Cinema.ViewModels
 {
@@ -106,9 +106,9 @@ namespace Cinema.ViewModels
             _showsToAdd = new ObservableCollection<Show>();
             _showsToRemove = new List<Show>();
 
-            AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
-            PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
-            NextWeekCommand = new RelayCommand(NextWeek_Executed);
+            //   AddShowCommand = new RelayCommand(AddShow_Executed, AddShow_CanExecute);
+            //   PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
+            //   NextWeekCommand = new RelayCommand(NextWeek_Executed);
         }
         #endregion
 
