@@ -48,6 +48,7 @@ namespace Cinema.ViewModels
 
             DeleteMovieCommand = new RelayCommand(DeleteMovie_Executed, Movie_CanExecute);
             EditMovieCommand = new RelayCommand(EditMovie_Executed, Movie_CanExecute);
+            AddMovieCommand = new RelayCommand(AddMovie_Executed);
 
             Init(db);
             LoadCollections();
@@ -79,6 +80,7 @@ namespace Cinema.ViewModels
 
         public ICommand DeleteMovieCommand { get; set; }
         public ICommand EditMovieCommand { get; set; }
+        public ICommand AddMovieCommand { get; set; }
 
         public Movie SelectedMovie
         {
@@ -125,6 +127,27 @@ namespace Cinema.ViewModels
                 OnPropertyChanged("SurnameFilter");
             }
         }
+        public ListCollectionView MoviesView
+        {
+            get
+            {
+                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_movies));
+            }
+        }
+        public ListCollectionView ShowsView
+        {
+            get
+            {
+                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_shows));
+            }
+        }
+        private ListCollectionView ReservationsView
+        {
+            get
+            {
+                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_reservations));
+            }
+        }
         #endregion
 
         #region Commands
@@ -139,16 +162,18 @@ namespace Cinema.ViewModels
                 return false;
             }
         }
-
         private void DeleteMovie_Executed(object sender)
         {
             _db.Delete(SelectedMovie);
-            LoadCollections();
         }
-
         private void EditMovie_Executed(object obj)
         {
             MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance(), SelectedMovie));
+            newMovie.Show();
+        }
+        private void AddMovie_Executed(object obj)
+        {
+            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()));
             newMovie.Show();
         }
         #endregion
@@ -174,20 +199,6 @@ namespace Cinema.ViewModels
         #endregion
 
         #region Filters
-        public ListCollectionView ShowsView
-        {
-            get
-            {
-                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_shows));
-            }
-        }
-        private ListCollectionView ReservationsView
-        {
-            get
-            {
-                return (ListCollectionView)CollectionViewSource.GetDefaultView(GetView(_reservations));
-            }
-        }
         private void RemoveFilter()
         {
             ShowsView.Filter = null;

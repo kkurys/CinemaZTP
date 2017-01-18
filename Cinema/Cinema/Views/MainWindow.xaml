@@ -267,7 +267,7 @@
                         </GroupBox>
                     </Grid>
                     <DockPanel Grid.Row="1">
-                        <Button Content="Dodaj film" Margin="5" Padding="10, 3" Name="BTAddMovie" Click="AddMovie" ></Button>
+                        <Button Content="Dodaj film" Margin="5" Padding="10, 3" Name="BTAddMovie"  Command="{Binding AddMovieCommand}" CommandParameter="{Binding}"></Button>
                         <Button Content="Usuń film" Margin="5" Padding="10, 3" Name="BTRemoveMovie" Command="{Binding DeleteMovieCommand}" CommandParameter="{Binding}"></Button>
                         <Button Content="Edytuj film" Margin="5" Padding="10, 3" Name="BTEditMovie"  Command="{Binding EditMovieCommand}" CommandParameter="{Binding}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

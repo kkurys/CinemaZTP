@@ -57,7 +57,7 @@ namespace Cinema.Views
 
         private void AddMovie(object sender, RoutedEventArgs e)
         {
-            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance(), new Models.Movie() { Title = "Kupa na dworze" }) { Close = Close });
+            MovieWindow newMovie = new MovieWindow(new MovieViewModel(DbManager.GetInstance()));
             newMovie.Show();
         }
         /*
