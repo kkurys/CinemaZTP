@@ -127,9 +127,13 @@ namespace Cinema.ViewModels
             RemoveShowCommand = new RelayCommand(RemoveShow_Executed);
             PrevWeekCommand = new RelayCommand(PrevWeek_Executed, PrevWeek_CanExecute);
             NextWeekCommand = new RelayCommand(NextWeek_Executed);
-
+            _db.AddObserver(this);
             GetView(_showsToAdd).GroupDescriptions.Add(new PropertyGroupDescription("Title"));
             GetView(_showsToAdd).SortDescriptions.Add(new SortDescription("ShowDate", ListSortDirection.Ascending));
+        }
+        ~ShowsViewModel()
+        {
+            _db.RemoveObserver(this);
         }
         #endregion
 
@@ -203,6 +207,7 @@ namespace Cinema.ViewModels
         }
         public void SaveChanges()
         {
+            _db.RemoveObserver(this);
             foreach (Show s in _showsToRemove)
             {
                 _db.Delete(s);
@@ -244,7 +249,6 @@ namespace Cinema.ViewModels
             Show s = sender as Show;
             TimeSpan diff = s.ShowDate.Value - _currentDate;
             int day = diff.Days;
-
             _showsToRemove.Add(s);
             ShowsToAdd.Remove(s);
             GenerateTable(null, null);

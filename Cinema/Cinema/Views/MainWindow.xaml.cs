@@ -20,10 +20,9 @@ namespace Cinema.Views
             InitializeComponent();
 
             _viewModel = new MainViewModel(DbManager.GetInstance());
-            DbManager.GetInstance().AddObserver(_viewModel);
+            DbManager.GetInstance().InitKeeper();
             MainGrid.DataContext = _viewModel;
         }
-
         #region methods
         private void ReservationSelected(object sender, SelectionChangedEventArgs e)
         {
